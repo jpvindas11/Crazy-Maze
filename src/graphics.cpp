@@ -6,28 +6,29 @@ Graphics::~Graphics(){}
 void Graphics::init(Player& player1, Player& player2, Game_map& game_map){
     SDL_Init (SDL_INIT_EVERYTHING);
 
-    background.init(TILE, SCREEN_WIDTH, SCREEN_HEIGHT);
-    tiles.init(TILE, SCREEN_WIDTH, SCREEN_HEIGHT, game_map.get_width(), game_map.get_height());
-
     window = SDL_CreateWindow(GAME_NAME,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,SCREEN_WIDTH,SCREEN_HEIGHT, SDL_WINDOW_ALLOW_HIGHDPI);
     renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_PRESENTVSYNC);
     SDL_SetRenderDrawColor(renderer, 255,255,255,255);
 
+    SDL_Surface * icon = IMG_Load("assets/icon.bmp");
+    SDL_SetWindowIcon(window,icon);
+    SDL_FreeSurface(icon);
+
+    x_draw_offset = ((SCREEN_WIDTH/2) - (game_map.get_width()/2)*TILE)/TILE;
+    y_draw_offset = ((SCREEN_HEIGHT/2) - (game_map.get_height()/2)*TILE)/TILE;
+
+    background.init(TILE, SCREEN_WIDTH, SCREEN_HEIGHT);
+    tiles.init(TILE, SCREEN_WIDTH, SCREEN_HEIGHT, x_draw_offset, y_draw_offset);
+
     map_index = "poison";
 
-    //PLAYERS
-    player1_draw.player_tex = load_texture("assets/char00.png",renderer);
-    player1.width = PLAYER_WIDTH;
-    player1.height = PLAYER_HEIGHT;
+    init_player_draw(player1_draw, "assets/skins/char00.png", player1.get_x(), player1.get_y(),
+    PLAYER_WIDTH, PLAYER_HEIGHT, P_FRAME_WIDTH, P_FRAME_HEIGHT);
+    init_player_draw(player2_draw, "assets/skins/char01.png", player2.get_x(), player2.get_y(),
+    PLAYER_WIDTH, PLAYER_HEIGHT, P_FRAME_WIDTH, P_FRAME_HEIGHT);
 
-    player2_draw.player_tex = load_texture("assets/char01.png",renderer);
-    player2.width = PLAYER_WIDTH;
-    player2.height = PLAYER_HEIGHT;
-
-    //BACKGROUND
-    background.load_bg("assets/maps/poison/background.png",renderer);
-    //GROUND
-    tiles.load_tile_set("assets/maps/poison/ground.png",renderer);
+    background.load_bg("assets/maps/test/background.png",renderer);
+    tiles.load_tile_set("assets/maps/test/ground.png",renderer);
 
     is_running = true;
 }
@@ -39,8 +40,8 @@ void Graphics::update(Player& player1, Player& player2, Game_map& game_map){
     event();
     controls(player1, player2);
 
-    player1.animation();
-    player2.animation();
+    animation(player1_draw.image_frame, player1_draw.image_index, player1_draw.image_speed, player1_draw.image_length);
+    animation(player2_draw.image_frame, player2_draw.image_index, player2_draw.image_speed, player2_draw.image_length);
 
     render(player1,player2,game_map);
 
@@ -54,16 +55,14 @@ void Graphics::render(Player& player1, Player& player2, Game_map& game_map){
 
     tiles.draw(renderer, game_map);
 
-    //DRAW PLAYER 1
-    set_rect(player1_draw.player_rect, player1.x*TILE, player1.y*TILE-(4), player1.width, player1.height); 
-    set_rect(player1_draw.player_spr, player1.get_frame()*P_FRAME_WIDTH, player1.get_action()*P_FRAME_HEIGHT, P_FRAME_WIDTH, P_FRAME_HEIGHT);
+    set_rect(player1_draw.player_rect, (player1.get_x()+x_draw_offset)*TILE, (player1.get_y()+y_draw_offset)*TILE - P_YOFFSET, PLAYER_WIDTH, PLAYER_HEIGHT); 
+    set_rect(player1_draw.player_spr, player1_draw.image_frame*P_FRAME_WIDTH, player1_draw.action_index*P_FRAME_HEIGHT, P_FRAME_WIDTH, P_FRAME_HEIGHT);
     SDL_RenderCopy(renderer, player1_draw.player_tex, &player1_draw.player_spr, &player1_draw.player_rect);
 
-    //DRAW PLAYER 2
-    set_rect(player2_draw.player_rect, player2.x*TILE, player2.y*TILE-(4), player2.width, player2.height); 
-    set_rect(player2_draw.player_spr, player2.get_frame()*P_FRAME_WIDTH, player2.get_action()*P_FRAME_HEIGHT, P_FRAME_WIDTH, P_FRAME_HEIGHT);
+    set_rect(player2_draw.player_rect, (player2.get_x()+x_draw_offset)*TILE, (player2.get_y()+y_draw_offset)*TILE - P_YOFFSET, PLAYER_WIDTH, PLAYER_HEIGHT); 
+    set_rect(player2_draw.player_spr, player2_draw.image_frame*P_FRAME_WIDTH, player2_draw.action_index*P_FRAME_HEIGHT, P_FRAME_WIDTH, P_FRAME_HEIGHT);
     SDL_RenderCopy(renderer, player2_draw.player_tex, &player2_draw.player_spr, &player2_draw.player_rect);
-    
+
     SDL_RenderPresent(renderer);
 }
 
@@ -82,50 +81,67 @@ void Graphics::controls(Player& player1, Player& player2){
         //PLAYER 1
         if (window_event.key.keysym.sym == SDLK_d){
             player1.x += 1;
-            player1.set_action(2);
+            player1_draw.action_index = 2;
+            player1_draw.image_speed = 7;
         }
         if (window_event.key.keysym.sym == SDLK_a){
             player1.x -= 1;
-            player1.set_action(3);
+            player1_draw.action_index =(3);
         }
         if (window_event.key.keysym.sym == SDLK_w){
             player1.y -= 1;
-            player1.set_action(1);
+            player1_draw.action_index =(1);
         }
         if (window_event.key.keysym.sym == SDLK_s){
             player1.y += 1;
-            player1.set_action(0);
+            player1_draw.action_index =(0);
         }
         //PLAYER 2
         if (window_event.key.keysym.sym == SDLK_RIGHT){
             player2.x += 1;
-            player2.set_action(2);
+            player2_draw.action_index =(2);
+             player2_draw.image_speed = 8;
         }
         if (window_event.key.keysym.sym == SDLK_LEFT){
             player2.x -= 1;
-            player2.set_action(3);
+            player2_draw.action_index =(3);
         }
         if (window_event.key.keysym.sym == SDLK_UP){
             player2.y -= 1;
-            player2.set_action(1);
+            player2_draw.action_index =(1);
         }
         if (window_event.key.keysym.sym == SDLK_DOWN){
             player2.y += 1;
-            player2.set_action(0);
+            player2_draw.action_index =(0);
         }
     }
 }
 
-
-void Graphics::clean(){
-    SDL_DestroyWindow(window);
-    SDL_DestroyRenderer(renderer);
-    SDL_Quit();
-}
 
 void Graphics::set_rect(SDL_Rect& rect, int x, int y, int w, int h){
     rect.x = x;
     rect.y = y;
     rect.w = w;
     rect.h = h;
+}
+
+void Graphics::init_player_draw(PlayerDraw& player, const char* sprite, int x, int y, 
+int width, int height, int frame_width, int frame_height){
+
+    player.player_tex = load_texture(sprite,renderer);
+
+    set_rect(player.player_rect, x, y, width, height);
+    set_rect(player.player_spr, 0, 0, frame_width, frame_height);
+
+    player.image_frame = 0;
+    player.image_speed = 0;
+    player.image_length = 4;
+    player.image_index = 0;
+    player.action_index = 0;
+}
+
+void Graphics::clean(){
+    SDL_DestroyWindow(window);
+    SDL_DestroyRenderer(renderer);
+    SDL_Quit();
 }

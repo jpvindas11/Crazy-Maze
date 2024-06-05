@@ -1,13 +1,13 @@
 #include "tiles.h"
 #include "iostream"
 
-void Tiles::init(int TILE_SIZE, int SCREEN_W, int SCREEN_H, int MAP_W, int MAP_H){
+void Tiles::init(int TILE_SIZE, int SCREEN_W, int SCREEN_H, int X_OFF, int Y_OFF){
     tile_size = TILE_SIZE;
     screen_width = SCREEN_W;
     screen_height = SCREEN_H;
 
-    x_offset = ((SCREEN_W/2) - (MAP_W/2)*TILE_SIZE)/TILE_SIZE;
-    y_offset = ((SCREEN_H/2) - (MAP_H/2)*TILE_SIZE)/TILE_SIZE;
+    x_offset = X_OFF;
+    y_offset = Y_OFF;
 
     tile_rect.x = 0; tile_rect.y = 0;
     tile_rect.w = tile_size; tile_rect.h = tile_size;

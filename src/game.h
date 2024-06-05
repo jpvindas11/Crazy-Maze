@@ -10,7 +10,7 @@ class Game{
 
 public:
 
-    Game() : game_map(30,15) {};
+    Game();
     ~Game(){};
 
     void initialize_game();

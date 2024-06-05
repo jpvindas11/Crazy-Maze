@@ -1,9 +1,11 @@
 #include "game.h"
 
+Game::Game() : game_map(30,15), player1(0,0), player2(2,2) {
+    initialize_game();
+};
+
 void Game::initialize_game(){
 
-    player1.init(0,0,6);
-    player2.init(0,0,8);
     graphics.init(player1,player2,game_map);
 
 }

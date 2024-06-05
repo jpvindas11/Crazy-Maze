@@ -8,14 +8,16 @@
 
 #define TILE 16
 
+#define P_FRAME_WIDTH 16
+#define P_FRAME_HEIGHT 20
+
+#define P_YOFFSET (4*(TILE/P_FRAME_WIDTH))
+
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 720
 
 #define PLAYER_WIDTH TILE
-#define PLAYER_HEIGHT (TILE + 4*(TILE/16)) //16 IS THE DEFAULT TILE SIZE, +4 BECAUSE PLAYER HEIGHT IS 20 BY DEFAULT
-
-#define P_FRAME_WIDTH 16
-#define P_FRAME_HEIGHT 20
+#define PLAYER_HEIGHT (TILE + P_YOFFSET)
 
 #include "sdl/SDL.h"
 #include "sdl/SDL_image.h"
@@ -25,6 +27,7 @@
 #include "game_map.h"
 #include "level/background.h"
 #include "level/tiles.h"
+#include "sprite_animator.h"
 
 
 class Graphics{
@@ -51,6 +54,12 @@ private:
         SDL_Texture* player_tex;
         SDL_Rect player_rect;
         SDL_Rect player_spr;
+
+        int image_frame;
+        int image_index;
+        int image_speed;
+        int image_length;
+        int action_index;
     };
 
     Background background;
@@ -72,7 +81,13 @@ private:
     int loop_start;
     int delta;
 
+    int x_draw_offset, y_draw_offset;
+
     const char* map_index;
+
+private:
+    void init_player_draw(PlayerDraw& player, const char* sprite, int x, int y, 
+        int width, int height, int frame_width, int frame_height);
 };
 
 #endif 

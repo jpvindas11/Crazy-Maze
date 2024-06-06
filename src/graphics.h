@@ -19,8 +19,8 @@
 #define PLAYER_WIDTH TILE
 #define PLAYER_HEIGHT (TILE + P_YOFFSET)
 
-#include "sdl/SDL.h"
-#include "sdl/SDL_image.h"
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_image.h"
 #include "texture_loader.h"
 
 #include "player.h"

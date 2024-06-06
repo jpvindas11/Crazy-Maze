@@ -1,0 +1,22 @@
+# ninja log v5
+0	830	1717632259595858641	CMakeFiles/Crazy-Maze.dir/src/main.cpp.o	5c15a437e5bc05f
+3	757	1717634741604275767	CMakeFiles/CrazyMaze.dir/src/level/background.cpp.o	ac55103642a4b062
+2	780	1717634866925112132	CMakeFiles/CrazyMaze.dir/src/main.cpp.o	6bc4d72339d0b82b
+4	39	1717634740888270994	CMakeFiles/CrazyMaze.dir/src/player.cpp.o	6495ce9b78013b0f
+5	855	1717634741704276434	CMakeFiles/CrazyMaze.dir/src/texture_loader.cpp.o	815bf9ee44e17d0b
+2	750	1717634945417636741	CMakeFiles/CrazyMaze.dir/src/game.cpp.o	f198ff85cc622bae
+3	490	1717634741336273981	CMakeFiles/CrazyMaze.dir/src/game_map.cpp.o	fc149cc30a97fae6
+3	665	1717634741512275153	CMakeFiles/CrazyMaze.dir/src/graphics.cpp.o	ea9503151b38ed20
+4	1103	1717634741948278060	CMakeFiles/CrazyMaze.dir/src/level/tiles.cpp.o	a8fb57514438ecef
+750	908	1717634945577637811	CrazyMaze	1b0d3a9dad111377
+5	34	1717638489884616783	CMakeFiles/CrazyMaze.dir/src/player.cpp.o	6495ce9b78013b0f
+5	35	1717638489888616811	CMakeFiles/CrazyMaze.dir/src/sprite_animator.cpp.o	cf743e08fe40ddb8
+4	625	1717638490476620890	CMakeFiles/CrazyMaze.dir/src/graphics.cpp.o	ea9503151b38ed20
+3	839	1717638490692622388	CMakeFiles/CrazyMaze.dir/src/game.cpp.o	f198ff85cc622bae
+4	922	1717638490772622942	CMakeFiles/CrazyMaze.dir/src/level/tiles.cpp.o	a8fb57514438ecef
+5	925	1717638490776622970	CMakeFiles/CrazyMaze.dir/src/main.cpp.o	6bc4d72339d0b82b
+925	1077	1717638490928624024	CrazyMaze	63efc881ef963293
+3	784	1717638592729329251	CMakeFiles/CrazyMaze.dir/src/game.cpp.o	f198ff85cc622bae
+784	976	1717638592921330580	CrazyMaze	63efc881ef963293
+2	767	1717639065340592158	CMakeFiles/CrazyMaze.dir/src/game.cpp.o	f198ff85cc622bae
+767	946	1717639065516593371	CrazyMaze	63efc881ef963293

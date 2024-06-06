@@ -1,8 +1,8 @@
 #ifndef TILES_H
 #define TILES_H
 
-#include "sdl/SDL.h"
-#include "sdl/SDL_image.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "../texture_loader.h"
 #include "../game_map.h"
 

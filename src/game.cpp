@@ -11,9 +11,11 @@ void Game::initialize_game(){
 }
 
 void Game::run_game(){
+    int count=0;
 
     while (graphics.running()){
         graphics.update(player1,player2,game_map);
+        
     }
     graphics.clean();
 

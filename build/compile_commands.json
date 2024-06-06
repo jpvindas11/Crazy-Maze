@@ -1,0 +1,47 @@
+[
+{
+  "directory": "/home/jordan/Documentos/Crazy-Maze/build",
+  "command": "/usr/bin/c++ -I/usr/include/SDL2 -g -o CMakeFiles/CrazyMaze.dir/src/game.cpp.o -c /home/jordan/Documentos/Crazy-Maze/src/game.cpp",
+  "file": "/home/jordan/Documentos/Crazy-Maze/src/game.cpp"
+},
+{
+  "directory": "/home/jordan/Documentos/Crazy-Maze/build",
+  "command": "/usr/bin/c++ -I/usr/include/SDL2 -g -o CMakeFiles/CrazyMaze.dir/src/game_map.cpp.o -c /home/jordan/Documentos/Crazy-Maze/src/game_map.cpp",
+  "file": "/home/jordan/Documentos/Crazy-Maze/src/game_map.cpp"
+},
+{
+  "directory": "/home/jordan/Documentos/Crazy-Maze/build",
+  "command": "/usr/bin/c++ -I/usr/include/SDL2 -g -o CMakeFiles/CrazyMaze.dir/src/graphics.cpp.o -c /home/jordan/Documentos/Crazy-Maze/src/graphics.cpp",
+  "file": "/home/jordan/Documentos/Crazy-Maze/src/graphics.cpp"
+},
+{
+  "directory": "/home/jordan/Documentos/Crazy-Maze/build",
+  "command": "/usr/bin/c++ -I/usr/include/SDL2 -g -o CMakeFiles/CrazyMaze.dir/src/level/background.cpp.o -c /home/jordan/Documentos/Crazy-Maze/src/level/background.cpp",
+  "file": "/home/jordan/Documentos/Crazy-Maze/src/level/background.cpp"
+},
+{
+  "directory": "/home/jordan/Documentos/Crazy-Maze/build",
+  "command": "/usr/bin/c++ -I/usr/include/SDL2 -g -o CMakeFiles/CrazyMaze.dir/src/level/tiles.cpp.o -c /home/jordan/Documentos/Crazy-Maze/src/level/tiles.cpp",
+  "file": "/home/jordan/Documentos/Crazy-Maze/src/level/tiles.cpp"
+},
+{
+  "directory": "/home/jordan/Documentos/Crazy-Maze/build",
+  "command": "/usr/bin/c++ -I/usr/include/SDL2 -g -o CMakeFiles/CrazyMaze.dir/src/main.cpp.o -c /home/jordan/Documentos/Crazy-Maze/src/main.cpp",
+  "file": "/home/jordan/Documentos/Crazy-Maze/src/main.cpp"
+},
+{
+  "directory": "/home/jordan/Documentos/Crazy-Maze/build",
+  "command": "/usr/bin/c++ -I/usr/include/SDL2 -g -o CMakeFiles/CrazyMaze.dir/src/player.cpp.o -c /home/jordan/Documentos/Crazy-Maze/src/player.cpp",
+  "file": "/home/jordan/Documentos/Crazy-Maze/src/player.cpp"
+},
+{
+  "directory": "/home/jordan/Documentos/Crazy-Maze/build",
+  "command": "/usr/bin/c++ -I/usr/include/SDL2 -g -o CMakeFiles/CrazyMaze.dir/src/sprite_animator.cpp.o -c /home/jordan/Documentos/Crazy-Maze/src/sprite_animator.cpp",
+  "file": "/home/jordan/Documentos/Crazy-Maze/src/sprite_animator.cpp"
+},
+{
+  "directory": "/home/jordan/Documentos/Crazy-Maze/build",
+  "command": "/usr/bin/c++ -I/usr/include/SDL2 -g -o CMakeFiles/CrazyMaze.dir/src/texture_loader.cpp.o -c /home/jordan/Documentos/Crazy-Maze/src/texture_loader.cpp",
+  "file": "/home/jordan/Documentos/Crazy-Maze/src/texture_loader.cpp"
+}
+]

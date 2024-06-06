@@ -1,0 +1,3 @@
+/home/jordan/Documentos/Crazy-Maze/build/CMakeFiles/CrazyMaze.dir
+/home/jordan/Documentos/Crazy-Maze/build/CMakeFiles/edit_cache.dir
+/home/jordan/Documentos/Crazy-Maze/build/CMakeFiles/rebuild_cache.dir

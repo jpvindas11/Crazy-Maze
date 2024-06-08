@@ -9,7 +9,6 @@ Game_map::Game_map(int width, int height) : height(height), width(width) {
 
     init_map(0,0);
 
-
 }
 
 Game_map::~Game_map() {
@@ -27,8 +26,7 @@ void Game_map::init_map(int x,int y)
     int newX;
     int newY;
 
-    map[x][y].visited=true;
-
+    map[x][y].setVisited(true);
 
     for(int i=0;i<4;i++){
             randMove=0 + std::rand()%(4);
@@ -48,23 +46,24 @@ void Game_map::init_map(int x,int y)
             newY=y;
         }
 
-        if(newX>=0 && newY>=0 && newX<this->height && newY<this->width && map[newX][newY].visited==false){
+        if(newX>=0 && newY>=0 && newX<this->height && newY<this->width && (map[newX][newY].isVisited())==false){
 
             if(newX<x){//arriba
-                map[x][y].top_wall=false;
-                map[newX][newY].bottom_wall=false;
+                
+                map[x][y].setTopWall(false);
+                map[newX][newY].setBottomWall(false);
 
             }else if(newX>x){//abajo
-                map[x][y].bottom_wall=false;
-                map[newX][newY].top_wall=false;
+                map[x][y].setBottomWall(false);
+                map[newX][newY].setTopWall(false);
 
             }else if(newY<y){//izquierda
-                map[x][y].left_wall=false;
-                map[newX][newY].right_wall=false;
+                map[x][y].setLeftWall(false);
+                map[newX][newY].setRightWall(false);
 
             }else if(newY>y){//derecha
-                map[x][y].right_wall=false;
-                map[newX][newY].left_wall=false;
+                map[x][y].setRightWall(false);
+                map[newX][newY].setLeftWall(false);
 
             }
             init_map(newX,newY);
@@ -74,20 +73,8 @@ void Game_map::init_map(int x,int y)
 
 
 
-void Game_map::print_map(){
-    std::cout << "\033[H\033[J";
-    for(int i=0;i<height;i++){
-        for(int j=0;j<width;j++){
-
-            printf(" %i", map[i][j]);
-
-        }
-        printf("\n");
-    }
-}
-
 void Game_map::printMap2()
-{
+{/*
     for (const auto& row : map) {
         for (const Cell& cell : row) {
             if (cell.top_wall) std::cout << " _";
@@ -102,4 +89,5 @@ void Game_map::printMap2()
         if (row.back().right_wall) std::cout << "|";
         std::cout << std::endl;
     }
+    */
 }

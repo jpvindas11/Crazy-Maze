@@ -13,38 +13,36 @@ void Game::initialize_game(){
 void Game::run_game(){
 
 
-    game_map.printMap2();
+    //game_map.printMap2();
+    printf("p1: %d,%d\n",player1.get_x(), player1.get_y());
 
-    //movePlayer();
+    movePlayer();
 
 
 
 /*
     while (graphics.running()){
-        graphics.update(player1,player2,game_map);
+        graphics.update(player1,player2,g
+            newX=x+1;ame_map);
     }
     graphics.clean();*/
 
 }
 
-/*
+//para mover jugador desde la terminal
+//juanpa ni lo vea
+
 void Game::movePlayer()
 {
     
-   set_terminal_mode();
-    
-    game_map.print_map();
-
-    
+        
     char ch;
     int x=player1.get_x();
     int y=player1.get_y();
     
     while (true) {
         ch = getchar();
-        
-        game_map.setMap(x,y,0);
-        
+                
         if (ch == '\033') {
             getchar(); // Saltar el '['
             switch(getchar()) {
@@ -62,12 +60,12 @@ void Game::movePlayer()
                     break;
             }
         }
-        game_map.setMap(x,y,5);
-        game_map.print_map();
+        player1.update(x,y);
+        printf("p1: %d,%d\n",player1.get_x(), player1.get_y());
+
     }
 
-    reset_terminal_mode();
-}*/
+}
 
 void Game::reset_terminal_mode() {
     struct termios new_termios;

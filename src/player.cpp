@@ -2,9 +2,11 @@
 
 Player::Player(int x_start, int y_start) : x(x_start), y(y_start){}
 
-void Player::update(){
+void Player::update(int new_X,int new_Y){
+    
+    this->set_x(new_X);
+    this->set_y(new_Y);
     
 }
 
-int Player::get_x(){ return x ;}
-int Player::get_y(){ return y ;}
+

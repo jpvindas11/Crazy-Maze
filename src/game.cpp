@@ -16,7 +16,7 @@ void Game::run_game(){
     //game_map.printMap2();
     printf("p1: %d,%d\n",player1.get_x(), player1.get_y());
 
-    movePlayer();
+    //movePlayer();
 
 
 
@@ -31,11 +31,12 @@ void Game::run_game(){
 
 //para mover jugador desde la terminal
 //juanpa ni lo vea
-
+/*
 void Game::movePlayer()
 {
     
-        
+    set_terminal_mode();
+    
     char ch;
     int x=player1.get_x();
     int y=player1.get_y();
@@ -65,6 +66,7 @@ void Game::movePlayer()
 
     }
 
+    reset_terminal_mode();
 }
 
 void Game::reset_terminal_mode() {
@@ -79,4 +81,4 @@ void Game::set_terminal_mode() {
     tcgetattr(STDIN_FILENO, &new_termios);
     new_termios.c_lflag &= ~(ICANON | ECHO);
     tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
-}
+}*/

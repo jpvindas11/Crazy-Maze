@@ -13,11 +13,13 @@ public:
     inline int get_y(){return this->y;}
     inline void set_x(int new_X){this->x=new_X;}
     inline void set_y(int new_Y){this->y=new_Y;}
+    
 
 private:
 
     int x;
     int y;
+    //hola
 
     //Cuando se hagan métodos para mover al jugador, hay que pasar x & y aquí en private. uwu
 

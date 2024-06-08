@@ -22,6 +22,7 @@ void Tiles::load_tile_set(const char* new_tile_set, SDL_Renderer* ren){
 }
 
 void Tiles::draw(SDL_Renderer* ren, Game_map& game_map){
+    /*
 
     for (int i = 0; i < game_map.get_height(); ++i){
         for (int j = 0; j < game_map.get_width(); ++j){
@@ -35,5 +36,6 @@ void Tiles::draw(SDL_Renderer* ren, Game_map& game_map){
             //Draw tile
             SDL_RenderCopy(ren, tile_tex, &tile_spr, &tile_rect);
         }
-    }
+    }*/
+   
 }

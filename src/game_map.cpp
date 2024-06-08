@@ -4,27 +4,78 @@
 
 Game_map::Game_map(int width, int height) : height(height), width(width) {
 
-    map=(int **)malloc(height * sizeof(int *));
-    for(int i=0;i<height;i++){
-        map[i] = (int *)malloc(width * sizeof(int));
-    }
+    std::srand(std::time(0));
+    map.resize(height,std::vector<Cell>(width));
 
-    for(int i=0;i<height;i++){
-        for(int j=0;j<width;j++){
-            if (i == j) {map[i][j]=1;}
-            else {map[i][j]=0;}
+    init_map(0,0);
+
+
+}
+
+Game_map::~Game_map() {
+
+    for(auto& tMap: map){
+        tMap.clear();
+    }
+    map.clear();
+
+}
+
+void Game_map::init_map(int x,int y)
+{
+    int randMove;
+    int newX;
+    int newY;
+
+    map[x][y].visited=true;
+
+
+    for(int i=0;i<4;i++){
+            randMove=0 + std::rand()%(4);
+
+
+        if(randMove==0){ //se mueve a la izquierda
+            newX=x;
+            newY=y-1;
+        }else if(randMove==1){//se mueve a la derecha
+            newX=x;
+            newY=y+1;
+        }else if(randMove==2){//mueve arriba
+            newX=x-1;
+            newY=y;
+        }else if(randMove==3){//mueve abajo
+            newX=x+1;
+            newY=y;
+        }
+
+        if(newX>=0 && newY>=0 && newX<this->height && newY<this->width && map[newX][newY].visited==false){
+
+            if(newX<x){//arriba
+                map[x][y].top_wall=false;
+                map[newX][newY].bottom_wall=false;
+
+            }else if(newX>x){//abajo
+                map[x][y].bottom_wall=false;
+                map[newX][newY].top_wall=false;
+
+            }else if(newY<y){//izquierda
+                map[x][y].left_wall=false;
+                map[newX][newY].right_wall=false;
+
+            }else if(newY>y){//derecha
+                map[x][y].right_wall=false;
+                map[newX][newY].left_wall=false;
+
+            }
+            init_map(newX,newY);
         }
     }
 }
 
-Game_map::~Game_map() {
-    for(int i=0;i<height;i++){
-        free(map[i]);
-    }
-    free(map);
-}
+
 
 void Game_map::print_map(){
+    std::cout << "\033[H\033[J";
     for(int i=0;i<height;i++){
         for(int j=0;j<width;j++){
 
@@ -32,5 +83,23 @@ void Game_map::print_map(){
 
         }
         printf("\n");
+    }
+}
+
+void Game_map::printMap2()
+{
+    for (const auto& row : map) {
+        for (const Cell& cell : row) {
+            if (cell.top_wall) std::cout << " _";
+            else std:: cout << "  ";
+        }
+        std::cout << std::endl;
+        for (const Cell& cell : row) {
+            if (cell.left_wall) std:: cout << "|";
+            else std::cout << " ";
+            std::cout << " ";
+        }
+        if (row.back().right_wall) std::cout << "|";
+        std::cout << std::endl;
     }
 }

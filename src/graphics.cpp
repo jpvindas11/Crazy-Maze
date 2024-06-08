@@ -78,42 +78,49 @@ void Graphics::event(){
 
 void Graphics::controls(Player& player1, Player& player2){
     if (window_event.type == SDL_KEYDOWN){
+        int P1_X=player1.get_x();
+        int P1_Y=player1.get_y();
+        int P2_X=player2.get_x();
+        int P2_Y=player2.get_y();
+
         //PLAYER 1
         if (window_event.key.keysym.sym == SDLK_d){
-            player1.x += 1;
+            P1_X+=1;
             player1_draw.action_index = 2;
             player1_draw.image_speed = 7;
         }
         if (window_event.key.keysym.sym == SDLK_a){
-            player1.x -= 1;
+            P1_X-=1;
             player1_draw.action_index =(3);
         }
         if (window_event.key.keysym.sym == SDLK_w){
-            player1.y -= 1;
+            P1_Y-=1;
             player1_draw.action_index =(1);
         }
         if (window_event.key.keysym.sym == SDLK_s){
-            player1.y += 1;
+            P1_Y+=1;
             player1_draw.action_index =(0);
         }
         //PLAYER 2
         if (window_event.key.keysym.sym == SDLK_RIGHT){
-            player2.x += 1;
+            P2_X+=1;
             player2_draw.action_index =(2);
              player2_draw.image_speed = 8;
         }
         if (window_event.key.keysym.sym == SDLK_LEFT){
-            player2.x -= 1;
+            P2_X-=1;
             player2_draw.action_index =(3);
         }
         if (window_event.key.keysym.sym == SDLK_UP){
-            player2.y -= 1;
+            P2_Y-=1;
             player2_draw.action_index =(1);
         }
         if (window_event.key.keysym.sym == SDLK_DOWN){
-            player2.y += 1;
+            P2_Y+=1;
             player2_draw.action_index =(0);
         }
+        player1.update(P1_X,P1_Y);
+        player2.update(P2_X,P2_Y);
     }
 }
 

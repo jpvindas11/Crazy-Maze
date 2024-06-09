@@ -19,7 +19,6 @@ private:
 
     int x;
     int y;
-    //hola
 
     //Cuando se hagan métodos para mover al jugador, hay que pasar x & y aquí en private. uwu
 

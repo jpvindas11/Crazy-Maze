@@ -49,6 +49,13 @@ cmake_ninja_workdir = /home/jordan/Documentos/Crazy-Maze/build/
 
 build cmake_object_order_depends_target_CrazyMaze: phony || CMakeFiles/CrazyMaze.dir
 
+build CMakeFiles/CrazyMaze.dir/src/cell.cpp.o: CXX_COMPILER__CrazyMaze_Debug /home/jordan/Documentos/Crazy-Maze/src/cell.cpp || cmake_object_order_depends_target_CrazyMaze
+  DEP_FILE = CMakeFiles/CrazyMaze.dir/src/cell.cpp.o.d
+  FLAGS = -g
+  INCLUDES = -I/usr/include/SDL2
+  OBJECT_DIR = CMakeFiles/CrazyMaze.dir
+  OBJECT_FILE_DIR = CMakeFiles/CrazyMaze.dir/src
+
 build CMakeFiles/CrazyMaze.dir/src/game.cpp.o: CXX_COMPILER__CrazyMaze_Debug /home/jordan/Documentos/Crazy-Maze/src/game.cpp || cmake_object_order_depends_target_CrazyMaze
   DEP_FILE = CMakeFiles/CrazyMaze.dir/src/game.cpp.o.d
   FLAGS = -g
@@ -120,7 +127,7 @@ build CMakeFiles/CrazyMaze.dir/src/texture_loader.cpp.o: CXX_COMPILER__CrazyMaze
 #############################################
 # Link the executable CrazyMaze
 
-build CrazyMaze: CXX_EXECUTABLE_LINKER__CrazyMaze_Debug CMakeFiles/CrazyMaze.dir/src/game.cpp.o CMakeFiles/CrazyMaze.dir/src/game_map.cpp.o CMakeFiles/CrazyMaze.dir/src/graphics.cpp.o CMakeFiles/CrazyMaze.dir/src/level/background.cpp.o CMakeFiles/CrazyMaze.dir/src/level/tiles.cpp.o CMakeFiles/CrazyMaze.dir/src/main.cpp.o CMakeFiles/CrazyMaze.dir/src/player.cpp.o CMakeFiles/CrazyMaze.dir/src/sprite_animator.cpp.o CMakeFiles/CrazyMaze.dir/src/texture_loader.cpp.o | /usr/lib/x86_64-linux-gnu/libSDL2_image.so
+build CrazyMaze: CXX_EXECUTABLE_LINKER__CrazyMaze_Debug CMakeFiles/CrazyMaze.dir/src/cell.cpp.o CMakeFiles/CrazyMaze.dir/src/game.cpp.o CMakeFiles/CrazyMaze.dir/src/game_map.cpp.o CMakeFiles/CrazyMaze.dir/src/graphics.cpp.o CMakeFiles/CrazyMaze.dir/src/level/background.cpp.o CMakeFiles/CrazyMaze.dir/src/level/tiles.cpp.o CMakeFiles/CrazyMaze.dir/src/main.cpp.o CMakeFiles/CrazyMaze.dir/src/player.cpp.o CMakeFiles/CrazyMaze.dir/src/sprite_animator.cpp.o CMakeFiles/CrazyMaze.dir/src/texture_loader.cpp.o | /usr/lib/x86_64-linux-gnu/libSDL2_image.so
   FLAGS = -g
   LINK_FLAGS = -rdynamic
   LINK_LIBRARIES = -L/usr/lib/x86_64-linux-gnu  -lSDL2  -lSDL2_image

@@ -5,8 +5,6 @@
 #include "graphics.h"
 #include "player.h"
 #include "game_map.h"
-#include <unistd.h>
-#include <termios.h>
 
 class Game{
 
@@ -17,10 +15,7 @@ public:
 
     void initialize_game();
     void run_game();
-    inline bool is_running() { return game_running; }
-    void movePlayer();
-    void reset_terminal_mode();
-    void set_terminal_mode();
+    bool is_running() { return game_running; }
 
 private:
 

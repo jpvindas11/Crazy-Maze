@@ -2,19 +2,26 @@
 #define CELL_H
 
 #define PORTAL_SPAWN_RATE 0.10
+#define POWER_SPAWN_RATE 0.20
+
+#include<iostream>
 
 class Cell {
 
 public:
     
     Cell() 
-        : top_wall(true), bottom_wall(true), right_wall(true), left_wall(true), visited(false) {}
+        : top_wall(true), bottom_wall(true), right_wall(true), left_wall(true), visited(false),has_Portal(false),has_double_Play(false),has_control_Enemy(false),has_jump_wall(false) {}
 
     inline bool hasTopWall() const { return top_wall; }
     inline bool hasBottomWall() const { return bottom_wall; }
     inline bool hasRightWall() const { return right_wall; }
     inline bool hasLeftWall() const { return left_wall; }
     inline bool isVisited() const { return visited; }
+    inline bool getPortal() const {return this->has_Portal;}
+    inline bool getDP()const {return this->has_double_Play;}
+    inline bool getControlEnemy() const { return has_control_Enemy; }
+    inline bool getJumpWall() const { return has_jump_wall; }
 
    
     inline void setTopWall(bool value) { this->top_wall = value; }
@@ -22,9 +29,18 @@ public:
     inline void setRightWall(bool value) { this->right_wall = value; }
     inline void setLeftWall(bool value) { this->left_wall = value; }
     inline void setVisited(bool value) { this->visited = value; }
+    inline void setPortal(bool value) {this->has_Portal=value;}
 
 
-    bool isPortal(); 
+
+    void update_Powers(int height,int width);
+
+    bool isPortal(int height,int width); 
+    bool double_play();
+    bool control_Enemy();
+    bool jump_Wall();
+
+
 
 
 

@@ -1,6 +1,11 @@
 [
 {
   "directory": "/home/jordan/Documentos/Crazy-Maze/build",
+  "command": "/usr/bin/c++ -I/usr/include/SDL2 -g -o CMakeFiles/CrazyMaze.dir/src/cell.cpp.o -c /home/jordan/Documentos/Crazy-Maze/src/cell.cpp",
+  "file": "/home/jordan/Documentos/Crazy-Maze/src/cell.cpp"
+},
+{
+  "directory": "/home/jordan/Documentos/Crazy-Maze/build",
   "command": "/usr/bin/c++ -I/usr/include/SDL2 -g -o CMakeFiles/CrazyMaze.dir/src/game.cpp.o -c /home/jordan/Documentos/Crazy-Maze/src/game.cpp",
   "file": "/home/jordan/Documentos/Crazy-Maze/src/game.cpp"
 },

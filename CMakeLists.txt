@@ -10,6 +10,8 @@ include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 
 file(GLOB SOURCES "src/*.cpp" "src/level/*.cpp" )
 
+list(APPEND SOURCES "src/cell.cpp")
+
 add_executable(CrazyMaze ${SOURCES})
 
 target_link_libraries(CrazyMaze ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})

@@ -1,10 +1,10 @@
 #ifndef GAME_MAP_H
 #define GAME_MAP_H
 
-#include "cell.h"
 #include <vector>
 #include <cstdlib> 
 #include <ctime> 
+#include "cell.h"
 
 class Game_map{
 

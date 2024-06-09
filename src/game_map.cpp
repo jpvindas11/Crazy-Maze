@@ -7,6 +7,33 @@ Game_map::Game_map(int width, int height) : height(height), width(width) {
     std::srand(std::time(0));
     map.resize(height,std::vector<Cell>(width));
 
+    for (auto& row : map) {
+        for (Cell& cell : row) { 
+
+            cell.update_Powers(height,width);
+
+            if(cell.getPortal()==true){
+                int other_X= 0 + std::rand()%(height);
+                int other_Y= 0 + std::rand()%(width);
+                map[other_X][other_Y].setPortal(true);
+            }
+        }
+    }
+
+     for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            Cell& cell = map[i][j];
+            cell.update_Powers(height, width);
+
+            
+            std::cout << "  Portal: " << (cell.getPortal() ? "Yes" : "No") << std::endl;
+            std::cout << "  Double Play: " << (cell.getDP() ? "Yes" : "No") << std::endl;
+            std::cout << "  Control Enemy: " << (cell.getControlEnemy() ? "Yes" : "No") << std::endl;
+            std::cout << "  Jump Wall: " << (cell.getJumpWall() ? "Yes" : "No") << std::endl;
+            printf("\n");
+        }
+    }
+
     init_map(0,0);
 
 }
@@ -77,16 +104,16 @@ void Game_map::printMap2()
 {/*
     for (const auto& row : map) {
         for (const Cell& cell : row) {
-            if (cell.top_wall) std::cout << " _";
+            if (cell.hasTopWall()) std::cout << " _";
             else std:: cout << "  ";
         }
         std::cout << std::endl;
         for (const Cell& cell : row) {
-            if (cell.left_wall) std:: cout << "|";
+            if (cell.hasLeftWall()) std:: cout << "|";
             else std::cout << " ";
             std::cout << " ";
         }
-        if (row.back().right_wall) std::cout << "|";
+        if (row.back().hasRightWall()) std::cout << "|";
         std::cout << std::endl;
     }
     */

@@ -97,7 +97,24 @@ void Game_map::init_map(int x,int y)
         }
     }
 }
-
+void Game_map::print_map(){
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            const Cell& cell = map[i][j];
+            std::cout << "Cell (" << i << "," << j << "):\n";
+            std::cout << "  Portal: " << (cell.getPortal() ? "Yes" : "No") << "\n";
+            std::cout << "  Double Play: " << (cell.getDP() ? "Yes" : "No") << "\n";
+            std::cout << "  Control Enemy: " << (cell.getControlEnemy() ? "Yes" : "No") << "\n";
+            std::cout << "  Jump Wall: " << (cell.getJumpWall() ? "Yes" : "No") << "\n";
+            std::cout << "  Top Wall: " << (cell.hasTopWall() ? "Yes" : "No") << "\n";
+            std::cout << "  Bottom Wall: " << (cell.hasBottomWall() ? "Yes" : "No") << "\n";
+            std::cout << "  Left Wall: " << (cell.hasLeftWall() ? "Yes" : "No") << "\n";
+            std::cout << "  Right Wall: " << (cell.hasRightWall() ? "Yes" : "No") << "\n";
+            std::cout << "  Visited: " << (cell.isVisited() ? "Yes" : "No") << "\n";
+            std::cout << std::endl;
+        }
+    }
+}
 
 
 void Game_map::printMap2()

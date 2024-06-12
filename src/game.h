@@ -23,7 +23,7 @@ private:
     Game_map game_map;
     Player player1;
     Player player2;
-
+    void handleTurn(Player& player, const std::string& playerName); 
     bool game_running = graphics.running();
 
 };

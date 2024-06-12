@@ -10,14 +10,43 @@ void Game::initialize_game(){
 
 }
 
-void Game::run_game(){
+void Game::handleTurn(Player& player, const std::string& playerName) {
+    std::cout << playerName << "turn" << std::endl;
+    player.takeTurn(game_map);
+    if (player.hasDoublePlay()) {
+        std::cout << playerName << " has a double play. Taking another turn" << std::endl;
+        player.useDoublePlay(); //once the power is used this funtion set that power in false
+        player.takeTurn(game_map);
+    }
+    // we have to see how to change controls, this code is like sergio said "the patito" code for the moment
+     if (player.hasControlEnemy()) {
+        std::cout << playerName << " got control enemy power. Controlling the opponent" << std::endl;
+        player.useControlEnemy();
+        if (playerName == "Player 1") {
+            player2.takeTurn(game_map);
+        } else {
+            player1.takeTurn(game_map);
+        }
+    }
+}
 
+void Game::run_game() {
+    bool player1_turn = true; // Player 1 starts
 
-    //game_map.printMap2();
-    printf("p1: %d,%d\n",player1.get_x(), player1.get_y());
+    while (true) {
+        game_map.print_map();
+        printf("p1: %d,%d\n", player1.get_x(), player1.get_y());
+        printf("p2: %d,%d\n", player2.get_x(), player2.get_y());
 
-    //movePlayer();
+        if (player1_turn) {
+            handleTurn(player1, "Player 1");
+        } else {
+            handleTurn(player2, "Player 2");
+        }
 
+        player1_turn = !player1_turn; // Switch turns
+    }
+}
 
 
 /*
@@ -27,7 +56,7 @@ void Game::run_game(){
     }
     graphics.clean();*/
 
-}
+
 
 //para mover jugador desde la terminal
 //juanpa ni lo vea

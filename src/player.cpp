@@ -3,26 +3,23 @@
 Player::Player(int x_start, int y_start) : x(x_start), y(y_start), map(nullptr), jumpWallPower(0) {}
 
 void Player::handleMovement(char direction, Game_map& game_map) {
-    //map = &game_map;
-    int new_X = x;
-    int new_Y = y;
 
     switch (direction) {
         case 'd': // Derecha
-            new_Y += 1;
+            new_x += 1;
             break;
         case 'a': // Izquierda
-            new_Y -= 1;
+            new_x -= 1;
             break;
         case 'w': // Arriba
-            new_X -= 1;
+            new_y -= 1;
             break;
         case 's': // Abajo
-            new_X += 1;
+            new_y += 1;
             break;
     }
 
-    update(new_X, new_Y);
+    update_pos(game_map);
 }
 
 bool Player::canMove(int new_X, int new_Y, Game_map& game_map) {
@@ -122,6 +119,7 @@ void Player::teleport(Game_map& game_map) {
                 set_x(i);
                 set_y(j);
                 std::cout << "Teletransportado a: (" << i << ", " << j << ")" << std::endl;
+                game_map.get_map_index(i, j).clean_cell();
                 return;
             }
         }
@@ -133,7 +131,7 @@ void Player::collectPowers(const Cell& cell) {
         jumpWallPower++;
         std::cout << "Poder de salto acumulado: " << jumpWallPower << std::endl;
     }
-    if (cell.getDP()) {
+    if (cell.get_double_play()) {
         doublePlayPower = true;
         std::cout << "Poder de doble turno obtenido." << std::endl;
     }
@@ -143,12 +141,13 @@ void Player::collectPowers(const Cell& cell) {
     }
 }
 
-bool Player::boolUpdate(int new_X, int new_Y, Game_map& game_map) {
-    if (canMove(new_X, new_Y, game_map)) {
-        set_x(new_X);
-        set_y(new_Y);
-        collectPowers(game_map.get_map_index(new_X, new_Y));
-        if (game_map.get_map_index(new_X, new_Y).getPortal()) {
+bool Player::can_update_pos(Game_map& game_map) {
+    if (canMove(new_x, new_y, game_map)) {
+        set_x(new_x);
+        set_y(new_y);
+        collectPowers(game_map.get_map_index(new_x, new_y));
+        game_map.get_map_index(new_x, new_y).clean_cell();
+        if (game_map.get_map_index(new_x, new_y).getPortal()) {
             teleport(game_map);
         }
         return true; 
@@ -156,20 +155,14 @@ bool Player::boolUpdate(int new_X, int new_Y, Game_map& game_map) {
     return false;
 }
 
-void Player::update(int new_X, int new_Y) {
-    if (boolUpdate(new_X, new_Y, *map)) { 
-        set_x(new_X);
-        set_y(new_Y);
+void Player::update_pos(Game_map& game_map) {
+    if (can_update_pos(game_map)) { 
+        set_x(new_x);
+        set_y(new_y);
+        has_moved = true;
     }
+    new_x = 0; new_y = 0;
 }
-void Player::takeTurn(Game_map& game_map) { 
-    
-    
-    //the code for double turn and control enemy is in game.cpp
-
-    char input;
-    std::cout << "Enter movement (w/a/s/d) or use keys: ";
-    //idk how to do de cout for player 1 and player 2 without duplicating code, then this can be changed 
-    std::cin >> input;
-    handleMovement(input, game_map);
-}
+/*void Player::takeTurn(Game_map& game_map, char move_direction) { 
+    handleMovement(move_direction);
+}*/

@@ -5,6 +5,7 @@
 #include "graphics.h"
 #include "player.h"
 #include "game_map.h"
+#include "controls.h"
 
 class Game{
 
@@ -15,16 +16,20 @@ public:
 
     void initialize_game();
     void run_game();
-    bool is_running() { return game_running; }
 
 private:
 
     Graphics graphics;
     Game_map game_map;
+    Controls controller;
+
     Player player1;
     Player player2;
-    void handleTurn(Player& player, const std::string& playerName); 
-    bool game_running = graphics.running();
+    Player *p_pointer;
+    
+    void handle_turns();
+    int turn;
+    int frame;
 
 };
 

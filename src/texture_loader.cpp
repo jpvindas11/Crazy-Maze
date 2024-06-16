@@ -8,3 +8,10 @@ SDL_Texture* load_texture(const char* texture, SDL_Renderer *ren){
 
 return tex;
 }
+
+void set_rect(SDL_Rect& rect, int x, int y, int w, int h){
+    rect.x = x;
+    rect.y = y;
+    rect.w = w;
+    rect.h = h;
+}

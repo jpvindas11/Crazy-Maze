@@ -1,8 +1,8 @@
 #ifndef CELL_H
 #define CELL_H
 
-#define PORTAL_SPAWN_RATE 0.10
-#define POWER_SPAWN_RATE 0.20
+#define PORTAL_SPAWN_RATE 0.01
+#define POWER_SPAWN_RATE 0.02
 
 #include<iostream>
 
@@ -19,7 +19,7 @@ public:
     inline bool hasLeftWall() const { return left_wall; }
     inline bool isVisited() const { return visited; }
     inline bool getPortal() const {return this->has_Portal;}
-    inline bool getDP()const {return this->has_double_Play;}
+    inline bool get_double_play()const {return this->has_double_Play;}
     inline bool getControlEnemy() const { return has_control_Enemy; }
     inline bool getJumpWall() const { return has_jump_wall; }
 
@@ -34,12 +34,12 @@ public:
 
 
     void update_Powers(int height,int width);
+    void clean_cell();
 
     bool isPortal(int height,int width); 
     bool double_play();
     bool control_Enemy();
     bool jump_Wall();
-
 
 
 

@@ -7,10 +7,13 @@
 class Player {
 public:
     Player(int x_start, int y_start);
-    bool boolUpdate(int new_X, int new_Y, Game_map& map);
-    void update(int new_X, int new_Y);
-    void handleMovement(char direction, Game_map& map);
-    void takeTurn(Game_map& game_map);
+    bool can_update_pos(Game_map& map);
+    void update_pos(Game_map& game_map);
+    void handleMovement(char direction,Game_map& game_map);
+    void takeTurn(Game_map& game_map, char move_direction);
+    bool get_if_moved () { return has_moved;}
+
+    void set_has_moved(bool value) { has_moved = value;}
 
     int get_x() const { 
         return x; 
@@ -43,7 +46,10 @@ private:
     
     int x;
     int y;
+    int new_x = 0;
+    int new_y = 0;
     bool doublePlayPower;
+    bool has_moved;
     int jumpWallPower;
     bool controlEnemyPower;
     bool canMove(int new_X, int new_Y, Game_map& map);

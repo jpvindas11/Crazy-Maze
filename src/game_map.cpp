@@ -9,7 +9,6 @@ Game_map::Game_map(int width, int height) : height(height), width(width) {
 
     for (auto& row : map) {
         for (Cell& cell : row) { 
-
             cell.update_Powers(height,width);
 
             if(cell.getPortal()==true){
@@ -27,7 +26,7 @@ Game_map::Game_map(int width, int height) : height(height), width(width) {
 
             
             std::cout << "  Portal: " << (cell.getPortal() ? "Yes" : "No") << std::endl;
-            std::cout << "  Double Play: " << (cell.getDP() ? "Yes" : "No") << std::endl;
+            std::cout << "  Double Play: " << (cell.get_double_play() ? "Yes" : "No") << std::endl;
             std::cout << "  Control Enemy: " << (cell.getControlEnemy() ? "Yes" : "No") << std::endl;
             std::cout << "  Jump Wall: " << (cell.getJumpWall() ? "Yes" : "No") << std::endl;
             printf("\n");
@@ -103,7 +102,7 @@ void Game_map::print_map(){
             const Cell& cell = map[i][j];
             std::cout << "Cell (" << i << "," << j << "):\n";
             std::cout << "  Portal: " << (cell.getPortal() ? "Yes" : "No") << "\n";
-            std::cout << "  Double Play: " << (cell.getDP() ? "Yes" : "No") << "\n";
+            std::cout << "  Double Play: " << (cell.get_double_play() ? "Yes" : "No") << "\n";
             std::cout << "  Control Enemy: " << (cell.getControlEnemy() ? "Yes" : "No") << "\n";
             std::cout << "  Jump Wall: " << (cell.getJumpWall() ? "Yes" : "No") << "\n";
             std::cout << "  Top Wall: " << (cell.hasTopWall() ? "Yes" : "No") << "\n";

@@ -7,7 +7,6 @@ bool Cell::isPortal(int height,int width)
 
     if (portalProb <= PORTAL_SPAWN_RATE) {
 
-
         return true;
     } else {
         return false;
@@ -73,3 +72,11 @@ void Cell::update_Powers(int height,int width)
     }
 }
 
+void Cell::clean_cell(){
+
+    has_Portal = false;
+    has_control_Enemy = false;
+    has_double_Play = false;
+    has_jump_wall = false;
+    
+}

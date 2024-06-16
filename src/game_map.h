@@ -14,6 +14,7 @@ public:
     ~Game_map();
 
     Cell get_map_index(int i, int j) {return map[i][j];}
+
     void init_map(int x,int y);
     inline int get_height() {return height;}
     inline int get_width() {return width;}

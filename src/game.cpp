@@ -1,6 +1,6 @@
 #include "game.h"
 
-Game::Game() : game_map(5,5), player1(0,0), player2(2,2) {
+Game::Game() : game_map(35,20), player1(0,0), player2(2,2) {
     initialize_game();
 };
 
@@ -8,44 +8,58 @@ void Game::initialize_game(){
 
     graphics.init(player1,player2,game_map);
 
-}
+    turn = 1;
+    frame = 0;
 
-void Game::handleTurn(Player& player, const std::string& playerName) {
-    std::cout << playerName << "turn" << std::endl;
-    player.takeTurn(game_map);
-    if (player.hasDoublePlay()) {
-        std::cout << playerName << " has a double play. Taking another turn" << std::endl;
-        player.useDoublePlay(); //once the power is used this funtion set that power in false
-        player.takeTurn(game_map);
-    }
-    // we have to see how to change controls, this code is like sergio said "the patito" code for the moment
-     if (player.hasControlEnemy()) {
-        std::cout << playerName << " got control enemy power. Controlling the opponent" << std::endl;
-        player.useControlEnemy();
-        if (playerName == "Player 1") {
-            player2.takeTurn(game_map);
-        } else {
-            player1.takeTurn(game_map);
-        }
-    }
 }
 
 void Game::run_game() {
-    bool player1_turn = true; // Player 1 starts
 
-    while (true) {
-        game_map.print_map();
-        printf("p1: %d,%d\n", player1.get_x(), player1.get_y());
-        printf("p2: %d,%d\n", player2.get_x(), player2.get_y());
+    while (graphics.running() == true) {
 
-        if (player1_turn) {
-            handleTurn(player1, "Player 1");
-        } else {
-            handleTurn(player2, "Player 2");
-        }
+        frame++;
 
-        player1_turn = !player1_turn; // Switch turns
+        handle_turns();
+
+        graphics.update(player1, player2, game_map);
     }
+}
+
+void Game::handle_turns() {
+
+    controller.input_game(turn);
+
+    if (turn == 1) {p_pointer = &player1;}
+    else if (turn == 2) {p_pointer = &player2;}
+
+    if (frame%60 == 0){printf("(%i , %i)    ", p_pointer->get_x(), p_pointer->get_y());}
+
+    if (p_pointer->get_if_moved() == false){
+        p_pointer->handleMovement(controller.get_player_input(),game_map);
+    } else {
+        if (turn == 1) {turn = 1;}
+        else {turn = 1;}
+        p_pointer->set_has_moved(false);
+    }
+    
+
+    /* Comentado porque hay que acomodarlo para que actué en ciclo
+    player.takeTurn(game_map, controller);
+
+    if (player.hasDoublePlay()) {
+        player.useDoublePlay(); //once the power is used this funtion set that power in false
+        player.takeTurn(game_map, controller);
+    }
+    // we have to see how to change controls, this code is like sergio said "the patito" code for the moment
+     if (player.hasControlEnemy()) {
+        player.useControlEnemy();
+        if (playerName == "Player 1") {
+            player2.takeTurn(game_map, controller);
+        } else {
+            player1.takeTurn(game_map, controller);
+        }
+    }
+    */
 }
 
 

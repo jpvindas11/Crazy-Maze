@@ -1,5 +1,4 @@
 #include "controls.h"
-#include "iostream"
 
 void Controls::input_game(int turn){
 
@@ -13,19 +12,15 @@ void Controls::input_game(int turn){
                 //Player 1
                 if (control_event.key.keysym.sym == SDLK_d){
                     player_input = 'd';
-                    printf("%c",player_input);
                 }
                 if (control_event.key.keysym.sym == SDLK_a){
                     player_input = 'a';
-                    printf("%c",player_input);
                 }
                 if (control_event.key.keysym.sym == SDLK_w){
                     player_input = 'w';
-                    printf("%c",player_input);
                 }
                 if (control_event.key.keysym.sym == SDLK_s){
                     player_input = 's';
-                    printf("%c",player_input);
                 }
             }
 

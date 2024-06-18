@@ -26,21 +26,18 @@ void Graphics::init(Player& player1, Player& player2, Game_map& game_map){
 
     map_index = "poison";
 
-    background.load_bg("assets/maps/default/background.png",renderer);
-    tiles.load_tile_set("assets/maps/default/ground.png",renderer);
+    background.load_bg("assets/maps/poison/background.png",renderer);
+    tiles.load_tile_set("assets/maps/poison/ground.png",renderer);
 
     is_running = true;
 }
 
 void Graphics::update(Player& player1, Player& player2, Game_map& game_map){
     
-    loop_start = SDL_GetTicks(); //Get ticks at start of this frame
-
     event();
 
-    player1_draw.update(player1.get_x(), player1.get_y());
-    player2_draw.update(player2.get_x(), player2.get_y());
-
+    player1_draw.update(player1.get_x(), player1.get_y(), player1.get_jump_wall_power());
+    player2_draw.update(player2.get_x(), player2.get_y(), player2.get_jump_wall_power());
 
     render(player1,player2,game_map);
 

@@ -1,6 +1,6 @@
 #ifndef GAME_MAP_H
 #define GAME_MAP_H
-
+#include <algorithm>
 #include <vector>
 #include <cstdlib> 
 #include <ctime> 
@@ -20,6 +20,8 @@ public:
     inline int get_width() {return width;}
     void print_map();
     void set_map_index(int x,int y,int newNum);
+    
+    void print_map_state() const;
     void printMap2();
 
 

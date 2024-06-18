@@ -28,6 +28,12 @@ void Tiles::load_tile_set(const char* new_tile_set, SDL_Renderer* ren){
 
 void Tiles::draw(SDL_Renderer* ren, Game_map& game_map){
 
+    double_move.play_animation();
+    control_enemy.play_animation();
+    jump_wall.play_animation();
+    portal.play_animation();
+    
+    
     for (int i = 0; i < game_map.get_height(); ++i){
         for (int j = 0; j < game_map.get_width(); ++j){
 
@@ -38,19 +44,19 @@ void Tiles::draw(SDL_Renderer* ren, Game_map& game_map){
 
             SDL_RenderCopy(ren, tile_tex, &tile_spr, &tile_rect);
 
-            if (game_map.get_map_index(i,j).hasBottomWall() == true){
+            if (game_map.get_map_index(i,j).hasBottomWall()){
                 tile_spr.x = 16;
                 SDL_RenderCopy(ren, tile_tex, &tile_spr, &tile_rect);
             }
-            if (game_map.get_map_index(i,j).hasTopWall() == true){
+            if (game_map.get_map_index(i,j).hasTopWall()){
                 tile_spr.x = 32;
                 SDL_RenderCopy(ren, tile_tex, &tile_spr, &tile_rect);
             }
-            if (game_map.get_map_index(i,j).hasRightWall() == true){
+            if (game_map.get_map_index(i,j).hasRightWall()){
                 tile_spr.x = 48;
                 SDL_RenderCopy(ren, tile_tex, &tile_spr, &tile_rect);
             }
-            if (game_map.get_map_index(i,j).hasLeftWall() == true){
+            if (game_map.get_map_index(i,j).hasLeftWall()){
                 tile_spr.x = 64;
                 SDL_RenderCopy(ren, tile_tex, &tile_spr, &tile_rect);
             }

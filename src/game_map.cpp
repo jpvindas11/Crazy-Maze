@@ -3,28 +3,29 @@
 
 
 Game_map::Game_map(int width, int height) : height(height), width(width) {
-
     std::srand(std::time(0));
-    map.resize(height,std::vector<Cell>(width));
+    map.resize(height, std::vector<Cell>(width));
 
     for (auto& row : map) {
         for (Cell& cell : row) { 
-            cell.update_Powers(height,width);
+            cell.update_Powers(height, width);
 
-            if(cell.getPortal()==true){
-                int other_X= 0 + std::rand()%(height);
-                int other_Y= 0 + std::rand()%(width);
+            if (cell.getPortal() == true) {
+                int other_X, other_Y;
+                do {
+                    other_X = std::rand() % height;
+                    other_Y = std::rand() % width;
+                } while (map[other_X][other_Y].getPortal() == true);
                 map[other_X][other_Y].setPortal(true);
             }
         }
     }
 
-     for (int i = 0; i < height; ++i) {
+    for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             Cell& cell = map[i][j];
             cell.update_Powers(height, width);
 
-            
             std::cout << "  Portal: " << (cell.getPortal() ? "Yes" : "No") << std::endl;
             std::cout << "  Double Play: " << (cell.get_double_play() ? "Yes" : "No") << std::endl;
             std::cout << "  Control Enemy: " << (cell.getControlEnemy() ? "Yes" : "No") << std::endl;
@@ -33,69 +34,85 @@ Game_map::Game_map(int width, int height) : height(height), width(width) {
         }
     }
 
-    init_map(0,0);
-
+    init_map(0, 0);
 }
 
 Game_map::~Game_map() {
-
-    for(auto& tMap: map){
+    for (auto& tMap : map) {
         tMap.clear();
     }
     map.clear();
-
 }
 
-void Game_map::init_map(int x,int y)
-{
-    int randMove;
-    int newX;
-    int newY;
+void Game_map::init_map(int x, int y) {
+    int newX, newY;
 
     map[x][y].setVisited(true);
 
-    for(int i=0;i<4;i++){
-            randMove=0 + std::rand()%(4);
+    // Crear un vector con las direcciones 0, 1, 2, 3
+    std::vector<int> directions = {0, 1, 2, 3};
 
+    // Barajar el vector manualmente usando Fisher-Yates con lógica explícita
+    for (int i = directions.size() - 1; i > 0; --i) {
+        int j = std::rand() % (i + 1);
+        
+        // Intercambiar directions[i] y directions[j] sin usar std::swap
+        int temp = directions[i];
+        directions[i] = directions[j];
+        directions[j] = temp;
+    }
 
-        if(randMove==0){ //se mueve a la izquierda
-            newX=x;
-            newY=y-1;
-        }else if(randMove==1){//se mueve a la derecha
-            newX=x;
-            newY=y+1;
-        }else if(randMove==2){//mueve arriba
-            newX=x-1;
-            newY=y;
-        }else if(randMove==3){//mueve abajo
-            newX=x+1;
-            newY=y;
+    // Utilizar las direcciones barajadas para moverse
+    for (int i = 0; i < 4; ++i) {
+        int randMove = directions[i];
+
+        if (randMove == 0) { // mover a la izquierda
+            newX = x;
+            newY = y - 1;
+        } else if (randMove == 1) { // mover a la derecha
+            newX = x;
+            newY = y + 1;
+        } else if (randMove == 2) { // mover hacia arriba
+            newX = x - 1;
+            newY = y;
+        } else if (randMove == 3) { // mover hacia abajo
+            newX = x + 1;
+            newY = y;
         }
 
-        if(newX>=0 && newY>=0 && newX<this->height && newY<this->width && (map[newX][newY].isVisited())==false){
-
-            if(newX<x){//arriba
-                
+        if (newX >= 0 && newY >= 0 && newX < this->height && newY < this->width && !map[newX][newY].isVisited()) {
+            if (newX < x) { // arriba
                 map[x][y].setTopWall(false);
                 map[newX][newY].setBottomWall(false);
-
-            }else if(newX>x){//abajo
+            } else if (newX > x) { // abajo
                 map[x][y].setBottomWall(false);
                 map[newX][newY].setTopWall(false);
-
-            }else if(newY<y){//izquierda
+            } else if (newY < y) { // izquierda
                 map[x][y].setLeftWall(false);
                 map[newX][newY].setRightWall(false);
-
-            }else if(newY>y){//derecha
+            } else if (newY > y) { // derecha
                 map[x][y].setRightWall(false);
                 map[newX][newY].setLeftWall(false);
-
             }
-            init_map(newX,newY);
+            init_map(newX, newY);
         }
     }
 }
+
+void Game_map::print_map_state() const {
+    std::cout << "Mapa:" << std::endl;
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            const Cell& cell = map[i][j];
+            std::cout << "(" << i << ", " << j << "): ";
+            std::cout << "Top: " << (cell.hasTopWall() ? "Yes" : "No") << " ";
+            std::cout << "Bottom: " << (cell.hasBottomWall() ? "Yes" : "No") << " ";
+            std::cout << "Left: " << (cell.hasLeftWall() ? "Yes" : "No") << " ";
+            std::cout << "Right: " << (cell.hasRightWall() ? "Yes" : "No") << std::endl;
+        }
+    }
+}
+
 void Game_map::print_map(){
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {

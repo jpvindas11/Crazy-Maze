@@ -1,8 +1,8 @@
 #ifndef CELL_H
 #define CELL_H
 
-#define PORTAL_SPAWN_RATE 0.01
-#define POWER_SPAWN_RATE 0.02
+#define PORTAL_SPAWN_RATE 0.02
+#define POWER_SPAWN_RATE 0.06
 
 #include<iostream>
 
@@ -13,10 +13,10 @@ public:
     Cell() 
         : top_wall(true), bottom_wall(true), right_wall(true), left_wall(true), visited(false),has_Portal(false),has_double_Play(false),has_control_Enemy(false),has_jump_wall(false) {}
 
-    inline bool hasTopWall() const { return top_wall; }
-    inline bool hasBottomWall() const { return bottom_wall; }
-    inline bool hasRightWall() const { return right_wall; }
-    inline bool hasLeftWall() const { return left_wall; }
+    bool hasTopWall() const { return top_wall; }
+    bool hasBottomWall() const { return bottom_wall; }
+    bool hasRightWall() const  { return right_wall; }
+    bool hasLeftWall() const { return left_wall; }
     inline bool isVisited() const { return visited; }
     inline bool getPortal() const {return this->has_Portal;}
     inline bool get_double_play()const {return this->has_double_Play;}

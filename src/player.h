@@ -7,7 +7,8 @@
 class Player {
 public:
 
-    Player(int x_start, int y_start);
+    Player(int x_length, int y_length);
+
     void handle_movement(char direction,Game_map& game_map);
     bool get_if_moved () { return has_moved; }
 
@@ -34,6 +35,8 @@ public:
     void useControlEnemy() { 
         controlEnemyPower = false; 
     }
+
+    void print_current_cell_info(Game_map& game_map);
 private:
     
     int x;

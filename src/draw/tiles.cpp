@@ -20,10 +20,11 @@ void Tiles::init(int TILE_SIZE, int SCREEN_W, int SCREEN_H, int X_OFF, int Y_OFF
 void Tiles::load_tile_set(const char* new_tile_set, SDL_Renderer* ren){
     tile_tex = load_texture(new_tile_set,ren);
 
-    jump_wall.init("assets/items/pw_jump.png", ren, tile_size);
-    double_move.init("assets/items/pw_double_move.png", ren, tile_size);
-    control_enemy.init("assets/items/pw_control_enemy.png", ren, tile_size);
-    portal.init("assets/items/portal.png", ren, tile_size);
+    jump_wall.init("assets/items/pw_jump.png", ren, tile_size,0);
+    double_move.init("assets/items/pw_double_move.png", ren, tile_size,0);
+    control_enemy.init("assets/items/pw_control_enemy.png", ren, tile_size,0);
+    portal.init("assets/items/portal.png", ren, tile_size,0);
+    orb.init("assets/items/orb.png", ren, tile_size,1);
 }
 
 void Tiles::draw(SDL_Renderer* ren, Game_map& game_map){
@@ -32,6 +33,7 @@ void Tiles::draw(SDL_Renderer* ren, Game_map& game_map){
     control_enemy.play_animation();
     jump_wall.play_animation();
     portal.play_animation();
+    orb.play_animation();
     
     
     for (int i = 0; i < game_map.get_height(); ++i){
@@ -60,7 +62,6 @@ void Tiles::draw(SDL_Renderer* ren, Game_map& game_map){
                 tile_spr.x = 64;
                 SDL_RenderCopy(ren, tile_tex, &tile_spr, &tile_rect);
             }
-
             if (game_map.get_map_index(i,j).get_double_play() == true){
                 double_move.update(tile_rect.x,tile_rect.y);
                 double_move.render(ren);
@@ -77,6 +78,10 @@ void Tiles::draw(SDL_Renderer* ren, Game_map& game_map){
             if (game_map.get_map_index(i,j).getPortal() == true){
                 portal.update(tile_rect.x,tile_rect.y);
                 portal.render(ren);
+            }
+            if (game_map.get_map_index(i,j).get_treasure() == true){
+                orb.update(tile_rect.x,tile_rect.y);
+                orb.render(ren);
             }
 
         }

@@ -27,6 +27,7 @@ private:
     Item_draw control_enemy;
     Item_draw double_move;
     Item_draw portal;
+    Item_draw orb;
 
 
 private:

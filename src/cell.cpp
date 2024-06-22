@@ -19,7 +19,7 @@ bool Cell::double_play()
 
     double powerProb = static_cast<double>(rand()) / RAND_MAX; 
 
-    if (powerProb <= POWER_SPAWN_RATE) {
+    if (powerProb <= DOUBLE_SPAWN_RATE) {
 
         return true;
     } else {
@@ -33,7 +33,7 @@ bool Cell::control_Enemy()
 
     double powerProb = static_cast<double>(rand()) / RAND_MAX; 
 
-    if (powerProb <= POWER_SPAWN_RATE) {
+    if (powerProb <= CONTROL_SPAWN_RATE) {
 
         return true;
     } else {
@@ -46,7 +46,7 @@ bool Cell::jump_Wall()
 {
     double powerProb = static_cast<double>(rand()) / RAND_MAX; 
 
-    if (powerProb <= POWER_SPAWN_RATE) {
+    if (powerProb <= JUMP_SPAWN_RATE) {
         return true;
     } else {
         return false;
@@ -54,29 +54,37 @@ bool Cell::jump_Wall()
 
 }
 
-void Cell::update_Powers(int height,int width)
-{
-    int randomPower=0 + std::rand()%(4);
-
-    if(randomPower==0){//ver si hay portal
-        if(has_Portal==false){
-            has_Portal=isPortal(height,width);
-        }
-    }else if(randomPower==1){//ver i hay double play
-        has_double_Play=double_play();    
+void Cell::update_Powers(int height, int width) {
+    if (!isEmpty()) {
+        return; 
+    }
     
-    }else if(randomPower==2){//ver si hay control enemy
-        has_control_Enemy=control_Enemy();
-    }else if(randomPower==3){
-        has_jump_wall=jump_Wall();
+
+    int randomPower = std::rand() % 4;
+
+    if (randomPower == 0) { 
+        if (!has_Portal) {
+            has_Portal = isPortal(height, width);
+        }
+    } else if (randomPower == 1) { 
+        has_double_Play = double_play();
+    } else if (randomPower == 2) { 
+        has_control_Enemy = control_Enemy();
+    } else if (randomPower == 3) {
+        has_jump_wall = jump_Wall();
     }
 }
 
-void Cell::clean_cell(){
-
-    has_Portal = false;
-    has_control_Enemy = false;
-    has_double_Play = false;
-    has_jump_wall = false;
+void Cell::clean_cell() {
+    //std::cout << "Cleaning cell at memory address: " << this << std::endl;
+    setPortal(false);
+    set_control_enemy(false);
+    set_double_play(false);
+    set_jump_wall(false);
     
+    // Imprimir el estado de los poderes después de limpiarlos
+    /*std::cout << "  Portal after clean: " << (getPortal() ? "Yes" : "No") << std::endl;
+    std::cout << "  Double Play after clean: " << (get_double_play() ? "Yes" : "No") << std::endl;
+    std::cout << "  Control Enemy after clean: " << (getControlEnemy() ? "Yes" : "No") << std::endl;
+    std::cout << "  Jump Wall after clean: " << (getJumpWall() ? "Yes" : "No") << std::endl;*/
 }

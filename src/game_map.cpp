@@ -7,34 +7,37 @@ Game_map::Game_map(int width, int height) : height(height), width(width) {
     map.resize(height, std::vector<Cell>(width));
 
     for (auto& row : map) {
-        for (Cell& cell : row) { 
+        for (Cell& cell : row) {
             cell.update_Powers(height, width);
-
-            if (cell.getPortal() == true) {
-                int other_X, other_Y;
-                do {
-                    other_X = std::rand() % height;
-                    other_Y = std::rand() % width;
-                } while (map[other_X][other_Y].getPortal() == true);
-                map[other_X][other_Y].setPortal(true);
-            }
         }
     }
 
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             Cell& cell = map[i][j];
-            cell.update_Powers(height, width);
 
+            // Si la celda tiene un portal, asegúrate de que haya un par en una celda vacía
+            if (cell.getPortal()) {
+                int other_X, other_Y;
+                do {
+                    other_X = std::rand() % height;
+                    other_Y = std::rand() % width;
+                } while (!map[other_X][other_Y].isEmpty());
+                map[other_X][other_Y].setPortal(true);
+            }
+            /*
+            std::cout << "Cell (" << i << "," << j << ") Properties:" << std::endl;
             std::cout << "  Portal: " << (cell.getPortal() ? "Yes" : "No") << std::endl;
             std::cout << "  Double Play: " << (cell.get_double_play() ? "Yes" : "No") << std::endl;
             std::cout << "  Control Enemy: " << (cell.getControlEnemy() ? "Yes" : "No") << std::endl;
             std::cout << "  Jump Wall: " << (cell.getJumpWall() ? "Yes" : "No") << std::endl;
-            printf("\n");
+            std::cout << std::endl;*/
         }
     }
 
     init_map(0, 0);
+    
+    add_treasure(width, height);
 }
 
 Game_map::~Game_map() {
@@ -43,26 +46,28 @@ Game_map::~Game_map() {
     }
     map.clear();
 }
+Cell& Game_map::get_map_index(int x, int y) {
+    return map[x][y];
+}
 
 void Game_map::init_map(int x, int y) {
     int newX, newY;
 
     map[x][y].setVisited(true);
 
-    // Crear un vector con las direcciones 0, 1, 2, 3
+    
     std::vector<int> directions = {0, 1, 2, 3};
 
-    // Barajar el vector manualmente usando Fisher-Yates con lógica explícita
     for (int i = directions.size() - 1; i > 0; --i) {
         int j = std::rand() % (i + 1);
         
-        // Intercambiar directions[i] y directions[j] sin usar std::swap
+        
         int temp = directions[i];
         directions[i] = directions[j];
         directions[j] = temp;
     }
 
-    // Utilizar las direcciones barajadas para moverse
+    
     for (int i = 0; i < 4; ++i) {
         int randMove = directions[i];
 
@@ -94,11 +99,59 @@ void Game_map::init_map(int x, int y) {
                 map[x][y].setRightWall(false);
                 map[newX][newY].setLeftWall(false);
             }
+
+            add_extra_edges(x,y);
+
             init_map(newX, newY);
         }
     }
 }
+bool Game_map::bool_add_extra_edge() {
+    double rand_prob = static_cast<double>(std::rand()) / RAND_MAX;
+    return rand_prob < EXTRA_EDGE_PROB;
+}
 
+void Game_map::add_extra_edges(int x, int y) {
+    if (bool_add_extra_edge()){
+        int random = 0;
+        int direction = 0; 
+        bool set = false;
+        while(!set){
+            random = int(std::rand() % 4);
+            direction = random;
+
+            if (random == 0) { // arriba
+                if (x > 0){
+                    map[x][y].setTopWall(false);
+                    map[x-1][y].setBottomWall(false);
+                    set = true;
+                }
+            } else if (random == 1) { // abajo
+                if (x < height-1){
+                    map[x][y].setBottomWall(false);
+                    map[x+1][y].setTopWall(false);
+                    set = true;
+                }
+            } else if (random == 2) { // izquierda
+                if (y > 0){
+                    map[x][y].setLeftWall(false);
+                    map[x][y-1].setRightWall(false);
+                    set = true;
+                }
+            } else if (random == 3) { // derecha
+                if (x < width-1){
+                map[x][y].setRightWall(false);
+                map[x][y+1].setLeftWall(false);
+                set = true;
+                }
+            }
+        }
+    }
+}
+
+void Game_map::add_treasure(int width, int height){
+    get_map_index(int(std::rand()%height),int(std::rand()%width)).set_treasure(true);
+}
 void Game_map::print_map_state() const {
     std::cout << "Mapa:" << std::endl;
     for (int i = 0; i < height; ++i) {
@@ -133,21 +186,4 @@ void Game_map::print_map(){
 }
 
 
-void Game_map::printMap2()
-{/*
-    for (const auto& row : map) {
-        for (const Cell& cell : row) {
-            if (cell.hasTopWall()) std::cout << " _";
-            else std:: cout << "  ";
-        }
-        std::cout << std::endl;
-        for (const Cell& cell : row) {
-            if (cell.hasLeftWall()) std:: cout << "|";
-            else std::cout << " ";
-            std::cout << " ";
-        }
-        if (row.back().hasRightWall()) std::cout << "|";
-        std::cout << std::endl;
-    }
-    */
-}
+

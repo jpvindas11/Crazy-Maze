@@ -18,6 +18,8 @@
 
 #include "player.h"
 #include "game_map.h"
+#include "menu.h"
+#include "draw/menu_draw.h"
 #include "draw/background.h"
 #include "draw/tiles.h"
 #include "sprite_animator.h"
@@ -33,8 +35,17 @@ public:
 
     void init(Player& player1, Player& player2, Game_map& game_map);
 
-    void update(Player& player1, Player& player2, Game_map& game_map);
-    void render(Player& player1, Player& player2, Game_map& game_map);
+    void update_title(Menu& menu);
+    void update_game(Player& player1, Player& player2, Game_map& game_map, bool control_enemy, int turn);
+    void update_selection(Menu& menu);
+    void update_end(Menu& menu);
+
+    void render_title(Menu& menu);
+    void render_game(Game_map& game_map);
+    void render_selection(Menu& menu);
+    void render_end(Menu& menu);
+    
+
     void event ();
 
     void clean();
@@ -42,6 +53,7 @@ public:
 
 private:
 
+    Menu_draw menu_draw;
     Background background;
     Tiles tiles;
 

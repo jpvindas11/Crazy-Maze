@@ -3,9 +3,10 @@
 
 #define P_FRAME_WIDTH 16
 #define P_FRAME_HEIGHT 20
-#define P_ELEVATION 8
+#define P_OFFSET 4
 
 #define BASE_MOVEMENT_SPEED 1
+#define BASE_TELEPORT_SPEED 16
 #define BASE_GRAVITY 0.4
 #define BASE_JUMP_HEIGHT 4.0
 
@@ -23,10 +24,12 @@
 #define JUMP_LEFT 7
 
 #define GOT_ORB 8
-#define WIN 9
-#define LOST 10
+#define CONTROL 9
+#define CONTROLLED 10
+#define TELEPORT 11
 
-
+#define WIN 12
+#define LOST 13
 
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
@@ -40,19 +43,22 @@ public:
     Player_draw(){};
     ~Player_draw(){};
 
-    void init(const char* texture, SDL_Renderer* renderer, int tile_size, int x_off, int y_off);
-    void update(int next_x, int next_y, int new_jump_powers);
+    void init(const char* texture, SDL_Renderer* renderer, int player, int tile_size, int x_off, int y_off);
+    void update(int next_x, int next_y, int new_jump_powers, bool control_enemy, int turn);
     void render(SDL_Renderer* renderer);
 
     void jump();
     void vertical_movement();
     void action_manager();
     void set_skin(const char* texture , SDL_Renderer* renderer);
+    int get_y() {return y;};
 
 private:
     SDL_Texture* player_tex;
     SDL_Rect player_rect;
     SDL_Rect player_spr;
+
+    int player_index;
 
     int x , y;
     double z;
@@ -63,6 +69,7 @@ private:
     int x_offset, y_offset;
     int p_offset;
     int move_speed;
+    int teleport_speed;
     double jump_height;
     double gravity;
     double downwards_speed;
@@ -73,8 +80,12 @@ private:
     int image_length;
     int action_index;
     int last_jump_powers;
+    int turn;
 
     bool is_jumping;
+    bool teleport;
+    bool is_controlled;
+
 
     char facing_direction;
 };

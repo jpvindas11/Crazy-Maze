@@ -1,6 +1,6 @@
 #include "graphics.h"
 
-Graphics::Graphics(){}
+Graphics::Graphics(): menu_draw(SCREEN_HEIGHT,SCREEN_HEIGHT){}
 Graphics::~Graphics(){}
 
 void Graphics::init(Player& player1, Player& player2, Game_map& game_map){
@@ -18,8 +18,8 @@ void Graphics::init(Player& player1, Player& player2, Game_map& game_map){
     y_draw_offset = ((SCREEN_HEIGHT/2) - (game_map.get_height()/2)*TILE)/TILE;
 
 
-    player1_draw.init("assets/skins/char00.png",renderer,TILE,x_draw_offset,y_draw_offset);
-    player2_draw.init("assets/skins/char01.png",renderer,TILE,x_draw_offset,y_draw_offset);
+    player1_draw.init("assets/skins/char00.png",renderer, 1, TILE,x_draw_offset,y_draw_offset);
+    player2_draw.init("assets/skins/char01.png",renderer, 2, TILE,x_draw_offset,y_draw_offset);
 
     background.init(TILE, SCREEN_WIDTH, SCREEN_HEIGHT);
     tiles.init(TILE, SCREEN_WIDTH, SCREEN_HEIGHT, x_draw_offset, y_draw_offset);
@@ -32,29 +32,77 @@ void Graphics::init(Player& player1, Player& player2, Game_map& game_map){
     is_running = true;
 }
 
-void Graphics::update(Player& player1, Player& player2, Game_map& game_map){
+void Graphics::update_title(Menu& menu){
+    event();
+    render_title(menu);
+}
+
+void Graphics::update_selection(Menu& menu){
+    event();
+    render_selection(menu);
+}
+
+void Graphics::update_game(Player& player1, Player& player2, Game_map& game_map, bool control_enemy, int turn){
     
     event();
 
-    player1_draw.update(player1.get_x(), player1.get_y(), player1.get_jump_wall_power());
-    player2_draw.update(player2.get_x(), player2.get_y(), player2.get_jump_wall_power());
+    player1_draw.update(player1.get_x(), player1.get_y(), player1.get_jump_wall_power(), control_enemy, turn);
+    player2_draw.update(player2.get_x(), player2.get_y(), player2.get_jump_wall_power(), control_enemy, turn);
 
-    render(player1,player2,game_map);
+    render_game(game_map);
 
 }
 
-void Graphics::render(Player& player1, Player& player2, Game_map& game_map){
+void Graphics::update_end(Menu& menu){
+    event();
+    render_end(menu);
+}
+
+void Graphics::render_title(Menu& menu){
+    SDL_RenderClear(renderer);
+
+    menu_draw.draw_title(renderer);
+
+    SDL_RenderPresent(renderer);
+}
+
+void Graphics::render_selection(Menu& menu){
+    SDL_RenderClear(renderer);
+
+    menu_draw.draw_selection(renderer);
+    
+    SDL_RenderPresent(renderer);
+}
+
+
+void Graphics::render_game(Game_map& game_map){
 
     SDL_RenderClear(renderer);
 
     background.draw(renderer);
     tiles.draw(renderer, game_map);
 
-    player1_draw.render(renderer);
-    player2_draw.render(renderer);
+    if (player1_draw.get_y() > player2_draw.get_y()){
+        player2_draw.render(renderer);
+        player1_draw.render(renderer);
+    }
+    else{
+        player1_draw.render(renderer);
+        player2_draw.render(renderer);
+    }
+
 
     SDL_RenderPresent(renderer);
 }
+
+void Graphics::render_end(Menu& menu){
+    SDL_RenderClear(renderer);
+
+    menu_draw.draw_end(renderer);
+
+    SDL_RenderPresent(renderer);
+}
+
 
 void Graphics::event(){
 

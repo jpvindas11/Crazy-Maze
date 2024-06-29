@@ -36,8 +36,7 @@ Game_map::Game_map(int width, int height) : height(height), width(width) {
     }
 
     init_map(0, 0);
-    
-    add_treasure(width, height);
+    fill_east_side();
 }
 
 Game_map::~Game_map() {
@@ -149,8 +148,10 @@ void Game_map::add_extra_edges(int x, int y) {
     }
 }
 
-void Game_map::add_treasure(int width, int height){
-    get_map_index(int(std::rand()%height),int(std::rand()%width)).set_treasure(true);
+void Game_map::fill_east_side(){
+    for (int i = 0; i < height; ++i){
+        map[i][width-1].setRightWall(true);
+    }
 }
 void Game_map::print_map_state() const {
     std::cout << "Mapa:" << std::endl;

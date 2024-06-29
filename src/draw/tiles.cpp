@@ -1,7 +1,9 @@
 #include "tiles.h"
 #include "iostream"
 
-void Tiles::init(int TILE_SIZE, int SCREEN_W, int SCREEN_H, int X_OFF, int Y_OFF){
+void Tiles::init(std::vector<SDL_Texture*> grounds, int TILE_SIZE, int SCREEN_W, int SCREEN_H, int X_OFF, int Y_OFF){
+    
+    tile_tex = grounds[0];
     tile_size = TILE_SIZE;
     screen_width = SCREEN_W;
     screen_height = SCREEN_H;
@@ -17,14 +19,16 @@ void Tiles::init(int TILE_SIZE, int SCREEN_W, int SCREEN_H, int X_OFF, int Y_OFF
 
 }
 
-void Tiles::load_tile_set(const char* new_tile_set, SDL_Renderer* ren){
-    tile_tex = load_texture(new_tile_set,ren);
+void Tiles::load_power_ups(SDL_Renderer* ren){
 
-    jump_wall.init("assets/items/pw_jump.png", ren, tile_size,0);
-    double_move.init("assets/items/pw_double_move.png", ren, tile_size,0);
-    control_enemy.init("assets/items/pw_control_enemy.png", ren, tile_size,0);
-    portal.init("assets/items/portal.png", ren, tile_size,0);
-    orb.init("assets/items/orb.png", ren, tile_size,1);
+    jump_wall.init("assets/items/pw_jump.png", ren, tile_size);
+    double_move.init("assets/items/pw_double_move.png", ren, tile_size);
+    control_enemy.init("assets/items/pw_control_enemy.png", ren, tile_size);
+    portal.init("assets/items/portal.png", ren, tile_size);
+}
+
+void Tiles::set_tile_set(std::vector<SDL_Texture*> grounds, int index){
+    tile_tex = grounds[index];
 }
 
 void Tiles::draw(SDL_Renderer* ren, Game_map& game_map){
@@ -33,7 +37,6 @@ void Tiles::draw(SDL_Renderer* ren, Game_map& game_map){
     control_enemy.play_animation();
     jump_wall.play_animation();
     portal.play_animation();
-    orb.play_animation();
     
     
     for (int i = 0; i < game_map.get_height(); ++i){
@@ -78,10 +81,6 @@ void Tiles::draw(SDL_Renderer* ren, Game_map& game_map){
             if (game_map.get_map_index(i,j).getPortal() == true){
                 portal.update(tile_rect.x,tile_rect.y);
                 portal.render(ren);
-            }
-            if (game_map.get_map_index(i,j).get_treasure() == true){
-                orb.update(tile_rect.x,tile_rect.y);
-                orb.render(ren);
             }
 
         }

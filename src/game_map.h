@@ -8,7 +8,6 @@
 #include <cstdlib> 
 #include <ctime> 
 #include "cell.h"
-#include "math.h"
 
 class Game_map{
 
@@ -22,13 +21,11 @@ public:
     void init_map(int x,int y);
     inline int get_height() {return height;}
     inline int get_width() {return width;}
-    void add_treasure(int width, int height);
+    void fill_east_side();
     
 
     void add_extra_edges(int x, int y);
     bool bool_add_extra_edge();
-
-    //void set_treasure(int x1, int y1, int x2, int y2);
 
     void print_map();
     void print_map_state() const;

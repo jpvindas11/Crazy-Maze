@@ -1,5 +1,5 @@
 #include "controls.h"
-
+#include "iostream"
 void Controls::input_game(int turn, bool control_enemy){
 
     player_input = 'n';
@@ -46,6 +46,7 @@ void Controls::input_game(int turn, bool control_enemy){
 void Controls::input_menu(){
 
     enter = false; space = false;
+    menu_input = 'n';
 
     if (SDL_PollEvent( &control_event )){
         if (control_event.type == SDL_KEYDOWN){
@@ -55,6 +56,20 @@ void Controls::input_menu(){
             if (control_event.key.keysym.sym == SDLK_SPACE){
                 space = true;
             }
+            if (control_event.key.keysym.sym == SDLK_d){
+                menu_input = 'd';
+            }
+            if (control_event.key.keysym.sym == SDLK_a){
+                menu_input = 'a';
+            }
+            if (control_event.key.keysym.sym == SDLK_RIGHT){
+                menu_input = 'r';
+            }
+            if (control_event.key.keysym.sym == SDLK_LEFT){
+                menu_input = 'l';
+            }
+
+            std::cout << "(" << menu_input << ")";
         }
     }
 }

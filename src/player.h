@@ -14,6 +14,8 @@ public:
 
     void set_has_moved(bool value) { has_moved = value;}
 
+    void update();
+
     int get_x() const { 
         return x; 
     }
@@ -35,6 +37,8 @@ public:
     void useControlEnemy() { 
         controlEnemyPower = false; 
     }
+    bool get_jumped () {return has_jumped;}
+    bool get_teleported() {return has_teleported;}
 
     void print_current_cell_info(Game_map& game_map);
 private:
@@ -45,6 +49,8 @@ private:
     bool has_moved;
     int jump_wall_power;
     bool controlEnemyPower;
+    bool has_teleported;
+    bool has_jumped;
 
 
 private:

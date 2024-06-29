@@ -1,6 +1,8 @@
 #include "background.h"
 
-void Background::init(int TILE_SIZE, int SCREEN_W, int SCREEN_H){
+void Background::init(std::vector<SDL_Texture*> backgrounds, int TILE_SIZE, int SCREEN_W, int SCREEN_H){
+
+    background = backgrounds[0];
     tile_size = TILE_SIZE;
     screen_width = SCREEN_W;
     screen_height = SCREEN_H;
@@ -10,8 +12,8 @@ void Background::init(int TILE_SIZE, int SCREEN_W, int SCREEN_H){
 }
 
 
-void Background::load_bg(const char* new_bg, SDL_Renderer* ren){
-    background = load_texture(new_bg,ren);
+void Background::load_bg(std::vector<SDL_Texture*> backgrounds, int index){
+    background = backgrounds[index];
 }
 
 void Background::draw(SDL_Renderer* ren){
@@ -23,3 +25,5 @@ void Background::draw(SDL_Renderer* ren){
         }
     }
 }
+
+Background::~Background(){};

@@ -1,14 +1,31 @@
 #ifndef MENU_DRAW_H
 #define MENU_DRAW_H
 
-#define TITLE_WIDTH 256
-#define TITLE_HEIGHT 128
+#define INTRO -1
+#define TITLE_SCREEN 0
+#define SELECTION_SCREEN 1
+#define IN_GAME 2
+#define END 3
+
+#define TITLE_WIDTH 384
+#define TITLE_HEIGHT 192
+
+#define START_MENU_WIDTH 192
+#define START_MENU_HEIGHT 64
+
+#define PLAYER_OVER_WIDTH 256
+#define PLAYER_OVER_HEIGHT 256
+
+#define MAP_OVER_WIDTH 256
+#define MAP_OVER_HEIGHT 224
 
 #include "../menu.h"
+#include "menu_element.h"
 #include "../sprite_animator.h"
 #include "../texture_loader.h"
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
+#include "iostream"
 
 class Menu_draw{
 
@@ -20,44 +37,32 @@ public:
     void load_all(SDL_Renderer* ren);
 
     void draw_intro(SDL_Renderer* ren){};
-    void draw_title(SDL_Renderer* ren);
-    void draw_selection(SDL_Renderer* ren);
+    void draw(SDL_Renderer* ren);
+    void update(int game_state, int p1_skin, int p2_skin, int map_index);
     void draw_gui(SDL_Renderer* ren){};
-    void draw_end(SDL_Renderer* ren){};
 
 private:
 
     int screen_width, screen_height;
 
-    struct Element{
+    Menu_element wolf;
 
-        SDL_Texture* tex;
-        SDL_Rect spr;
-        SDL_Rect rect;
+    Menu_element title;
+    Menu_element start_menu;
 
-        int base_x, base_y;
+    Menu_element map_overlay;
+    Menu_element map_pic;
+    Menu_element start_selec;
 
-        int image_frame;
-        int image_speed;
-        int image_index;
-        int image_length;
+    Menu_element player1;
+    Menu_element player1_overlay;
 
-        int state_index;
-    };
+    Menu_element player2;
+    Menu_element player2_overlay;
 
-    Element wolf;
-
-    Element title;
-    Element press_start;
-
-    Element map_overlay;
-    Element space_button;
-    Element player_overlay;
-    Element player;
-    Element player_button;
-
-    Element won_sign;
-    Element trophy;
+    Menu_element won_sign;
+    Menu_element trophy;
+    Menu_element start_end;
 
 };
 

@@ -1,8 +1,9 @@
 #include "player_draw.h"
 
-void Player_draw::init(const char* texture, SDL_Renderer* renderer, int player, int tile, int x_off, int y_off){
+void Player_draw::init(std::vector<SDL_Texture*> skins, int skin_ind, int player, int tile, int x_off, int y_off){
 
-    player_tex = load_texture(texture,renderer);
+    skin_index = skin_ind;
+    set_skin(skins,skin_ind);
     player_index = player;
 
     tile_size = tile;
@@ -35,22 +36,17 @@ void Player_draw::init(const char* texture, SDL_Renderer* renderer, int player, 
     action_index = 0;
     facing_direction = 's';
     is_jumping = false;
-    teleport = false;
-
-    last_jump_powers = 0;
+    teleport = true;
 
 }
 
-void Player_draw::update(int next_x, int next_y, int new_jump_powers, bool control_enemy, int turn_p){
+void Player_draw::update(Player& player, bool control_enemy, int turn_p){
 
     //JUMP
-    if (new_jump_powers < last_jump_powers){jump();}
-    last_jump_powers = new_jump_powers;
+    if (player.get_jumped() == true){jump();}
 
     //TP
-    if (((x-next_x*tile_size > tile_size) || (x-next_x*tile_size < -tile_size)) || 
-        ((y-next_y*tile_size > tile_size) || (y-next_y*tile_size < -tile_size))){
-        
+    if (player.get_teleported() == true){
         if (!teleport){
             int fixed_x = (x/tile_size)*tile_size;
             int fixed_y = (y/tile_size)*tile_size;
@@ -63,33 +59,49 @@ void Player_draw::update(int next_x, int next_y, int new_jump_powers, bool contr
     }
 
     //SPRITES
-    if (x > next_x*tile_size) {
+    if (x > player.get_x()*tile_size) {
 
         if (!teleport) x-=move_speed;
         else x-=teleport_speed;
         facing_direction = 'l';
     }
-    else if (x < next_x*tile_size) {
+    else if (x < player.get_x()*tile_size) {
         if(!teleport) x+=move_speed;
         else x+=teleport_speed;
         facing_direction = 'r';
     }
+    else{
+        if ((player.get_x()*tile_size)-move_speed < x < (player.get_x()*tile_size)+move_speed && !teleport){
+            x = player.get_x()*tile_size;
+        }
+        else if (((player.get_x()*tile_size)-teleport_speed*1.5) < x < ((player.get_x()*tile_size)+teleport_speed*1.5) && teleport){
+            x = player.get_x()*tile_size;
+        }
+    }
 
-    if (y > next_y*tile_size) {
+    if (y > player.get_y()*tile_size) {
         if(!teleport) y-=move_speed;
         else y-=teleport_speed;
         facing_direction = 'u';
     }
-    else if (y < next_y*tile_size) {
+    else if (y < player.get_y()*tile_size) {
         if(!teleport) y+=move_speed;
         else y+=teleport_speed;
         facing_direction = 'd';
+    }
+    else{
+        if ((player.get_y()*tile_size)-move_speed < y < (player.get_y()*tile_size)+move_speed && !teleport){
+            y = player.get_y()*tile_size;
+        }
+        else if (((player.get_y()*tile_size)-teleport_speed*1.5) < y < ((player.get_y()*tile_size)+teleport_speed*1.5) && teleport){
+            y = player.get_y()*tile_size;
+        }
     }
 
     action_manager();
 
     //ANIMATION SPEEDS
-    if (x == next_x*tile_size && y == next_y*tile_size) {
+    if (x == player.get_x()*tile_size && y == player.get_y()*tile_size) {
         if (image_frame == 0){
             image_speed = IDLE_IMAGE_SPEED;
         } 
@@ -143,9 +155,9 @@ void Player_draw::vertical_movement(){
     }
 }
 
-
-void Player_draw::set_skin(const char* texture , SDL_Renderer* renderer){
-    player_tex = load_texture(texture,renderer);
+void Player_draw::set_skin(std::vector<SDL_Texture*> skins, int index){
+    player_tex = skins[index];
+    skin_index = index;
 }
 
 void Player_draw::action_manager(){

@@ -12,6 +12,7 @@
 #include "player.h"
 #include "game_map.h"
 #include "controls.h"
+#include "menu.h"
 
 class Game{
 

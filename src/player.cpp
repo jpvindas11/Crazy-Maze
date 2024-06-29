@@ -7,6 +7,7 @@ Player::Player(int x_length, int y_length) : jump_wall_power(0), has_moved(false
 }
 
 void Player::handle_movement(char direction, Game_map& game_map) {
+
     if (can_move(game_map, direction)) {
         switch(direction) {
             case 'w': y--; break;
@@ -47,6 +48,7 @@ bool Player::can_move(Game_map& game_map, char direction) {
         if (jump_wall_power > 0) {
             if (can_jump_wall(game_map, direction)) {
                 jump_wall_power--;
+                has_jumped = true;
             } else {
                 moved = false;
             }
@@ -84,8 +86,9 @@ void Player::teleport(Game_map& game_map) {
             if (game_map.get_map_index(i, j).getPortal() && (i != y || j != x)) {
                 y = i;
                 x = j;
-                //std::cout << "Teletransportado a: (" << i << ", " << j << ")" << std::endl;
+                std::cout << "Teletransportado a: (" << i << ", " << j << ")" << std::endl;
                 game_map.get_map_index(i, j).clean_cell();
+                has_teleported = true;
                 return;
             }
         }
@@ -95,16 +98,21 @@ void Player::teleport(Game_map& game_map) {
 void Player::collect_powers(const Cell& cell) {
     if (cell.getJumpWall()) {
         jump_wall_power++;
-        //std::cout << "Poder de salto acumulado: " << jump_wall_power << std::endl;
+        std::cout << "Poder de salto acumulado: " << jump_wall_power << std::endl;
     }
     if (cell.get_double_play()) {
         doublePlayPower = true;
-        //std::cout << "Poder de doble turno obtenido." << std::endl;
+        std::cout << "Poder de doble turno obtenido." << std::endl;
     }
     if (cell.getControlEnemy()) {
         controlEnemyPower = true;
-        //std::cout << "Poder de controlar enemigo obtenido." << std::endl;
+        std::cout << "Poder de controlar enemigo obtenido." << std::endl;
     }
+}
+
+void Player::update(){
+    has_jumped = false;
+    has_teleported = false;
 }
 //funcion para ver que ocurre
 void Player::print_current_cell_info(Game_map& game_map) {

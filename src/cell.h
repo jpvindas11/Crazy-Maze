@@ -13,7 +13,7 @@ class Cell {
 public:
     
     Cell() 
-        : top_wall(true), bottom_wall(true), right_wall(true), left_wall(true), visited(false),has_Portal(false),has_double_Play(false),has_control_Enemy(false),has_jump_wall(false), has_treasure(false) {}
+        : top_wall(true), bottom_wall(true), right_wall(true), left_wall(true), visited(false),has_Portal(false),has_double_Play(false),has_control_Enemy(false),has_jump_wall(false) {}
 
     bool hasTopWall() const { return top_wall; }
     bool hasBottomWall() const { return bottom_wall; }
@@ -24,7 +24,6 @@ public:
     inline bool get_double_play()const {return this->has_double_Play;}
     inline bool getControlEnemy() const { return has_control_Enemy; }
     inline bool getJumpWall() const { return has_jump_wall; }
-    inline bool get_treasure() const { return has_treasure; }
 
    
     inline void setTopWall(bool value) { this->top_wall = value; }
@@ -37,7 +36,6 @@ public:
     inline void set_double_play(bool value) {this->has_double_Play=value;}
     inline void set_control_enemy(bool value) {this->has_control_Enemy=value;}
     inline void set_jump_wall(bool value){this-> has_jump_wall=value;}
-    inline void set_treasure(bool value){this-> has_treasure=value;}
 
     void update_Powers(int height,int width);
     void clean_cell();
@@ -62,7 +60,6 @@ private:
     bool has_double_Play;
     bool has_control_Enemy;
     bool has_jump_wall;
-    bool has_treasure;
 
 };
 

@@ -35,6 +35,8 @@
 #include "SDL2/SDL_image.h"
 #include "../sprite_animator.h"
 #include "../texture_loader.h"
+#include "vector"
+#include "../player.h"
 
 class Player_draw{
 
@@ -43,15 +45,16 @@ public:
     Player_draw(){};
     ~Player_draw(){};
 
-    void init(const char* texture, SDL_Renderer* renderer, int player, int tile_size, int x_off, int y_off);
-    void update(int next_x, int next_y, int new_jump_powers, bool control_enemy, int turn);
+    void init(std::vector<SDL_Texture*> skins, int skin_ind, int player, int tile, int x_off, int y_off);
+    void update(Player& player, bool control_enemy, int turn);
     void render(SDL_Renderer* renderer);
 
     void jump();
     void vertical_movement();
     void action_manager();
-    void set_skin(const char* texture , SDL_Renderer* renderer);
-    int get_y() {return y;};
+    void set_skin(std::vector<SDL_Texture*> skins, int index);
+
+    int get_skin() {return skin_index;}
 
 private:
     SDL_Texture* player_tex;
@@ -59,6 +62,7 @@ private:
     SDL_Rect player_spr;
 
     int player_index;
+    int skin_index;
 
     int x , y;
     double z;
@@ -79,7 +83,6 @@ private:
     int image_speed;
     int image_length;
     int action_index;
-    int last_jump_powers;
     int turn;
 
     bool is_jumping;

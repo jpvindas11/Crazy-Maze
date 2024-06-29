@@ -14,7 +14,7 @@ public:
     Item_draw(){};
     ~Item_draw(){};
 
-    void init(const char* texture, SDL_Renderer* renderer, int tile, int index);
+    void init(const char* texture, SDL_Renderer* renderer, int tile);
     void update(int new_x, int new_y);
     void play_animation();
     void render(SDL_Renderer* renderer);
@@ -29,7 +29,6 @@ private:
     int width, height;
     int frame_width, frame_height;
     int tile_size;
-    int item_index;
 
     int image_frame;
     int image_index;

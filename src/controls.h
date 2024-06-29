@@ -9,6 +9,7 @@ public:
     void input_game(int turn, bool control_enemy);
     void input_menu();
     char get_player_input () {return player_input;}
+    char get_menu_input () {return menu_input;}
 
     bool get_space() {return space;}
     bool get_enter() {return enter;}
@@ -18,6 +19,7 @@ private:
     SDL_Event control_event;
 
     char player_input;
+    char menu_input;
     bool enter;
     bool space;
 

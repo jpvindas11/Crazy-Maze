@@ -6,6 +6,7 @@
 #include "../texture_loader.h"
 #include "../game_map.h"
 #include "item_draw.h"
+#include "vector"
 
 class Tiles{
 
@@ -13,8 +14,9 @@ public:
     Tiles(){}
     ~Tiles(){}
 
-    void init(int TILE_SIZE, int SCREEN_W, int SCREEN_H, int MAP_W, int MAP_H);
-    void load_tile_set(const char* new_tile_set, SDL_Renderer* ren);
+    void init(std::vector<SDL_Texture*> grounds, int TILE_SIZE, int SCREEN_W, int SCREEN_H, int MAP_W, int MAP_H);
+    void load_power_ups(SDL_Renderer* ren);
+    void set_tile_set(std::vector<SDL_Texture*> grounds, int index);
     void draw(SDL_Renderer* ren, Game_map& game_map);
     
 private:
@@ -27,7 +29,6 @@ private:
     Item_draw control_enemy;
     Item_draw double_move;
     Item_draw portal;
-    Item_draw orb;
 
 
 private:

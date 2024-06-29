@@ -10,6 +10,7 @@ void Game::initialize_game(){
 
     turn = 1;
     timer = 0;
+    game_state = 0;
 
     p_pointer = &player1;
     control_enemy = false;
@@ -23,29 +24,33 @@ void Game::run_game() {
         frame++;
         run_timer();
 
+        player1.update(); player2.update();
+
         if (game_state == 2){controller.input_game(turn, control_enemy);}
         else controller.input_menu();
 
         if (game_state == 0){
             menu.title_screen(controller);
-            graphics.update_title(menu);
-            game_state = 2;
         }
         else if (game_state == 1){
             menu.selection_screen(controller);
-            graphics.update_selection(menu);
         }
         else if (game_state == 2) {
             handle_turns();
-            graphics.update_game(player1, player2, game_map, control_enemy, turn);
         }
         else if (game_state == 3){
             menu.game_end_screen(controller);
-            graphics.update_end(menu);
         }
-
+        
         menu.update_screen(game_state);
+
+        if (game_state == 2) {graphics.update_game(player1, player2, game_map, control_enemy, turn);}
+        else{
+            graphics.update_menu(menu,game_state,menu.get_player1_skin_index(),menu.get_player2_skin_index(), menu.get_current_map());
+        }
     }
+
+    graphics.clean();
 }
 void Game::set_turns(int turn){
     if (turn == 1) {turn = 2;}

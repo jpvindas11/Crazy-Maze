@@ -18,13 +18,14 @@
 
 #include "player.h"
 #include "game_map.h"
-#include "menu.h"
-#include "draw/menu_draw.h"
 #include "draw/background.h"
 #include "draw/tiles.h"
+#include "draw/menu_draw.h"
 #include "sprite_animator.h"
 #include "draw/player_draw.h"
-
+#include "vector"
+#include "csv_loader.h"
+#include "menu.h"
 
 class Graphics{
 
@@ -35,12 +36,12 @@ public:
 
     void init(Player& player1, Player& player2, Game_map& game_map);
 
-    void update_title(Menu& menu);
+    void update_menu(Menu& menu, int game_state, int player1, int player2, int map_index);
     void update_game(Player& player1, Player& player2, Game_map& game_map, bool control_enemy, int turn);
     void update_selection(Menu& menu);
     void update_end(Menu& menu);
 
-    void render_title(Menu& menu);
+    void render_menu(Menu& menu);
     void render_game(Game_map& game_map);
     void render_selection(Menu& menu);
     void render_end(Menu& menu);
@@ -53,7 +54,6 @@ public:
 
 private:
 
-    Menu_draw menu_draw;
     Background background;
     Tiles tiles;
 
@@ -64,6 +64,13 @@ private:
 
     Player_draw player1_draw;
     Player_draw player2_draw;
+
+    Menu_draw menu_draw;
+
+    std::vector<SDL_Texture*> player_skins;
+    std::vector<SDL_Texture*> backgrounds;
+    std::vector<SDL_Texture*> middlegrounds;
+    std::vector<SDL_Texture*> grounds;
 
 private:
 

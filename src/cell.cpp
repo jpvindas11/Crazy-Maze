@@ -54,14 +54,15 @@ bool Cell::jump_Wall()
 
 }
 
+
 void Cell::update_Powers(int height, int width) {
     if (!isEmpty()) {
         return; 
     }
     
-
+    
     int randomPower = std::rand() % 4;
-
+    
     if (randomPower == 0) { 
         if (!has_Portal) {
             has_Portal = isPortal(height, width);
@@ -73,6 +74,7 @@ void Cell::update_Powers(int height, int width) {
     } else if (randomPower == 3) {
         has_jump_wall = jump_Wall();
     }
+
 }
 
 void Cell::clean_cell() {
@@ -81,10 +83,6 @@ void Cell::clean_cell() {
     set_control_enemy(false);
     set_double_play(false);
     set_jump_wall(false);
-    
-    // Imprimir el estado de los poderes después de limpiarlos
-    /*std::cout << "  Portal after clean: " << (getPortal() ? "Yes" : "No") << std::endl;
-    std::cout << "  Double Play after clean: " << (get_double_play() ? "Yes" : "No") << std::endl;
-    std::cout << "  Control Enemy after clean: " << (getControlEnemy() ? "Yes" : "No") << std::endl;
-    std::cout << "  Jump Wall after clean: " << (getJumpWall() ? "Yes" : "No") << std::endl;*/
+    set_treasure(false);
+   
 }

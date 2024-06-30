@@ -3,7 +3,8 @@
 #include "game_map.h" 
 #include "cell.h"    
 
-
+class Game_map;
+class Cell;  
 class Player {
 public:
 
@@ -40,11 +41,14 @@ public:
     bool get_jumped () {return has_jumped;}
     bool get_teleported() {return has_teleported;}
 
-    void print_current_cell_info(Game_map& game_map);
+    bool get_treasure()const{
+        return has_treasure;
+    }
 private:
     
     int x;
     int y;
+    bool has_treasure;
     bool doublePlayPower;
     bool has_moved;
     int jump_wall_power;

@@ -5,13 +5,18 @@
 Game_map::Game_map(int width, int height) : height(height), width(width) {
     std::srand(std::time(0));
     map.resize(height, std::vector<Cell>(width));
-
+    for (auto& treasure_pos : treasure_positions) {
+        int treasure_x = treasure_pos.first;
+        int treasure_y = treasure_pos.second;
+        map[treasure_x][treasure_y].set_treasure(true);
+    }
     for (auto& row : map) {
         for (Cell& cell : row) {
+            
             cell.update_Powers(height, width);
         }
     }
-
+    
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             Cell& cell = map[i][j];
@@ -25,13 +30,7 @@ Game_map::Game_map(int width, int height) : height(height), width(width) {
                 } while (!map[other_X][other_Y].isEmpty());
                 map[other_X][other_Y].setPortal(true);
             }
-            /*
-            std::cout << "Cell (" << i << "," << j << ") Properties:" << std::endl;
-            std::cout << "  Portal: " << (cell.getPortal() ? "Yes" : "No") << std::endl;
-            std::cout << "  Double Play: " << (cell.get_double_play() ? "Yes" : "No") << std::endl;
-            std::cout << "  Control Enemy: " << (cell.getControlEnemy() ? "Yes" : "No") << std::endl;
-            std::cout << "  Jump Wall: " << (cell.getJumpWall() ? "Yes" : "No") << std::endl;
-            std::cout << std::endl;*/
+            
         }
     }
 
@@ -48,7 +47,24 @@ Game_map::~Game_map() {
 Cell& Game_map::get_map_index(int x, int y) {
     return map[x][y];
 }
+void Game_map::set_treasure_at(Player& player1, Player& player2) {
+    int player1_x = player1.get_x();
+    int player1_y = player1.get_y();
+    int player2_x = player2.get_x();
+    int player2_y = player2.get_y();
 
+    std::cout << "Player 1 position: (" << player1_x << ", " << player1_y << ")" << std::endl;
+    std::cout << "Player 2 position: (" << player2_x << ", " << player2_y << ")" << std::endl;
+
+    int manhattan_distance = abs(player1_x - player2_x) + abs(player1_y - player2_y);
+    std::cout << "Manhattan distance: " << manhattan_distance << std::endl;
+
+    int treasure_x = (player1_x + player2_x) / 2;
+    int treasure_y = (player1_y + player2_y) / 2;
+    std::cout << "nueva coordenada: (" << treasure_x << ", " << treasure_y << ")" << std::endl;
+    
+    treasure_positions.push_back(std::make_pair(treasure_x, treasure_y));
+}
 void Game_map::init_map(int x, int y) {
     int newX, newY;
 
@@ -153,38 +169,9 @@ void Game_map::fill_east_side(){
         map[i][width-1].setRightWall(true);
     }
 }
-void Game_map::print_map_state() const {
-    std::cout << "Mapa:" << std::endl;
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            const Cell& cell = map[i][j];
-            std::cout << "(" << i << ", " << j << "): ";
-            std::cout << "Top: " << (cell.hasTopWall() ? "Yes" : "No") << " ";
-            std::cout << "Bottom: " << (cell.hasBottomWall() ? "Yes" : "No") << " ";
-            std::cout << "Left: " << (cell.hasLeftWall() ? "Yes" : "No") << " ";
-            std::cout << "Right: " << (cell.hasRightWall() ? "Yes" : "No") << std::endl;
-        }
-    }
-}
 
-void Game_map::print_map(){
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            const Cell& cell = map[i][j];
-            std::cout << "Cell (" << i << "," << j << "):\n";
-            std::cout << "  Portal: " << (cell.getPortal() ? "Yes" : "No") << "\n";
-            std::cout << "  Double Play: " << (cell.get_double_play() ? "Yes" : "No") << "\n";
-            std::cout << "  Control Enemy: " << (cell.getControlEnemy() ? "Yes" : "No") << "\n";
-            std::cout << "  Jump Wall: " << (cell.getJumpWall() ? "Yes" : "No") << "\n";
-            std::cout << "  Top Wall: " << (cell.hasTopWall() ? "Yes" : "No") << "\n";
-            std::cout << "  Bottom Wall: " << (cell.hasBottomWall() ? "Yes" : "No") << "\n";
-            std::cout << "  Left Wall: " << (cell.hasLeftWall() ? "Yes" : "No") << "\n";
-            std::cout << "  Right Wall: " << (cell.hasRightWall() ? "Yes" : "No") << "\n";
-            std::cout << "  Visited: " << (cell.isVisited() ? "Yes" : "No") << "\n";
-            std::cout << std::endl;
-        }
-    }
-}
+
+
 
 
 

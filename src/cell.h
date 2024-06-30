@@ -5,7 +5,7 @@
 #define DOUBLE_SPAWN_RATE 0.1
 #define CONTROL_SPAWN_RATE 0.1
 #define JUMP_SPAWN_RATE 0.1
-
+#include "player.h"
 #include<iostream>
 
 class Cell {
@@ -24,7 +24,7 @@ public:
     inline bool get_double_play()const {return this->has_double_Play;}
     inline bool getControlEnemy() const { return has_control_Enemy; }
     inline bool getJumpWall() const { return has_jump_wall; }
-
+    inline bool get_treasure() const {return has_treasure;}
    
     inline void setTopWall(bool value) { this->top_wall = value; }
     inline void setBottomWall(bool value) { this->bottom_wall = value; }
@@ -36,7 +36,7 @@ public:
     inline void set_double_play(bool value) {this->has_double_Play=value;}
     inline void set_control_enemy(bool value) {this->has_control_Enemy=value;}
     inline void set_jump_wall(bool value){this-> has_jump_wall=value;}
-
+    inline void set_treasure(bool value){this-> has_treasure=value; }
     void update_Powers(int height,int width);
     void clean_cell();
 
@@ -44,10 +44,11 @@ public:
     bool double_play();
     bool control_Enemy();
     bool jump_Wall();
+    
 
 
     bool isEmpty() const {
-        return !has_Portal && !has_double_Play && !has_control_Enemy && !has_jump_wall;
+        return !has_Portal && !has_double_Play && !has_control_Enemy && !has_jump_wall && !has_treasure;
     }
 
 private:
@@ -60,6 +61,7 @@ private:
     bool has_double_Play;
     bool has_control_Enemy;
     bool has_jump_wall;
+    bool has_treasure;
 
 };
 

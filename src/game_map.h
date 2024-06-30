@@ -8,7 +8,9 @@
 #include <cstdlib> 
 #include <ctime> 
 #include "cell.h"
-
+#include "player.h"
+class Cell;  
+class Player;
 class Game_map{
 
 public:
@@ -22,18 +24,18 @@ public:
     inline int get_height() {return height;}
     inline int get_width() {return width;}
     void fill_east_side();
-    
+    void set_treasure_at(Player& player1, Player& player2);
 
     void add_extra_edges(int x, int y);
     bool bool_add_extra_edge();
 
-    void print_map();
-    void print_map_state() const;
+    
 private:
 
     std::vector<std::vector<Cell>> map;
     int height;
     int width;
+    std::vector<std::pair<int, int>> treasure_positions; 
 };
 
 

@@ -5,16 +5,16 @@ Game::Game() : game_map(MAP_WIDTH,MAP_HEIGTH), player1(MAP_WIDTH,MAP_HEIGTH), pl
 };
 
 void Game::initialize_game(){
-
+    game_map.set_treasure_at(player1, player2); 
     graphics.init(player1,player2,game_map);
-
+   
     turn = 1;
     timer = 0;
     game_state = 0;
 
     p_pointer = &player1;
     control_enemy = false;
-
+    
 }
 
 void Game::run_game() {
@@ -66,7 +66,11 @@ void Game::handle_turns() {
         p_pointer->handle_movement(controller.get_player_input(),game_map);
         
     } else {
-        
+        // if victory
+        if(p_pointer->get_treasure()==true){
+            std::cout << "winner: " << p_pointer << std::endl;
+            graphics.running() == false;
+        }
         if(p_pointer->hasDoublePlay()==true){
             p_pointer->useDoublePlay();
         }

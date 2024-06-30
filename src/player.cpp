@@ -17,15 +17,10 @@ void Player::handle_movement(char direction, Game_map& game_map) {
         }
 
         Cell& cell = game_map.get_map_index(y, x);
-        /*std::cout << "Before collecting cell powers:" << std::endl;
-        std::cout << "  Portal: " << (cell.getPortal() ? "Yes" : "No") << std::endl;
-        std::cout << "  Double Play: " << (cell.get_double_play() ? "Yes" : "No") << std::endl;
-        std::cout << "  Control Enemy: " << (cell.getControlEnemy() ? "Yes" : "No") << std::endl;
-        std::cout << "  Jump Wall: " << (cell.getJumpWall() ? "Yes" : "No") << std::endl;
-        printf("\n");*/
+       
 
         collect_cell(game_map);
-        //print_current_cell_info(game_map);  // Imprime la información de la casilla actual
+        
         has_moved = true;
     } else {
         has_moved = false;
@@ -61,6 +56,9 @@ bool Player::can_move(Game_map& game_map, char direction) {
 
 void Player::collect_cell(Game_map& game_map) {
     Cell& cell = game_map.get_map_index(y, x);
+    if(cell.get_treasure()){
+        has_treasure=true;
+    }
     collect_powers(cell);
     if (cell.getPortal()) {
         cell.clean_cell();
@@ -113,14 +111,4 @@ void Player::collect_powers(const Cell& cell) {
 void Player::update(){
     has_jumped = false;
     has_teleported = false;
-}
-//funcion para ver que ocurre
-void Player::print_current_cell_info(Game_map& game_map) {
-    Cell& cell = game_map.get_map_index(y, x);
-    std::cout << "Información de la casilla (" << y << ", " << x << "):" << std::endl;
-    std::cout << "  Portal: " << (cell.getPortal() ? "Yes" : "No") << std::endl;
-    std::cout << "  Double Play: " << (cell.get_double_play() ? "Yes" : "No") << std::endl;
-    std::cout << "  Control Enemy: " << (cell.getControlEnemy() ? "Yes" : "No") << std::endl;
-    std::cout << "  Jump Wall: " << (cell.getJumpWall() ? "Yes" : "No") << std::endl;
-    printf("\n");
 }

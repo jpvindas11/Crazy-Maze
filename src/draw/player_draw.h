@@ -5,6 +5,10 @@
 #define P_FRAME_HEIGHT 20
 #define P_OFFSET 4
 
+#define P_CONTROL_WIDTH 16
+#define P_CONTROL_HEIGHT 8
+#define P_CONTROL_ELEVATION 8
+
 #define BASE_MOVEMENT_SPEED 1
 #define BASE_TELEPORT_SPEED 16
 #define BASE_GRAVITY 0.4
@@ -37,6 +41,7 @@
 #include "../texture_loader.h"
 #include "vector"
 #include "../player.h"
+#include "../sound_manager.h"
 
 class Player_draw{
 
@@ -45,7 +50,7 @@ public:
     Player_draw(){};
     ~Player_draw(){};
 
-    void init(std::vector<SDL_Texture*> skins, int skin_ind, int player, int tile, int x_off, int y_off);
+    void init(std::vector<SDL_Texture*> skins, int skin_ind, int player, int tile, int x_off, int y_off, SDL_Renderer* ren);
     void update(Player& player, bool control_enemy, int turn);
     void render(SDL_Renderer* renderer);
 
@@ -53,13 +58,20 @@ public:
     void vertical_movement();
     void action_manager();
     void set_skin(std::vector<SDL_Texture*> skins, int index);
+    void set_control_signs();
 
     int get_skin() {return skin_index;}
+    int get_y() {return y;}
+    bool get_won() {return won;}
 
 private:
     SDL_Texture* player_tex;
     SDL_Rect player_rect;
     SDL_Rect player_spr;
+
+    SDL_Texture* player_control;
+    SDL_Rect control_rect;
+    SDL_Rect control_spr;
 
     int player_index;
     int skin_index;
@@ -88,6 +100,7 @@ private:
     bool is_jumping;
     bool teleport;
     bool is_controlled;
+    bool won;
 
 
     char facing_direction;

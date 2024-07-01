@@ -1,6 +1,6 @@
 #include "item_draw.h"
 
-void Item_draw::init(const char* texture, SDL_Renderer* renderer, int tile){
+void Item_draw::init(const char* texture, SDL_Renderer* renderer, int tile, int img_speed, int img_length){
 
     tile_size = tile;
 
@@ -13,8 +13,8 @@ void Item_draw::init(const char* texture, SDL_Renderer* renderer, int tile){
     set_rect(spr, 0, 0, frame_width, frame_height);
 
     image_frame = 0;
-    image_speed = 8;
-    image_length = 4;
+    image_speed = img_speed;
+    image_length = img_length;
     image_index = 0;
 
 }

@@ -14,7 +14,7 @@ public:
     Item_draw(){};
     ~Item_draw(){};
 
-    void init(const char* texture, SDL_Renderer* renderer, int tile);
+    void init(const char* texture, SDL_Renderer* renderer, int tile, int image_speed, int image_length);
     void update(int new_x, int new_y);
     void play_animation();
     void render(SDL_Renderer* renderer);

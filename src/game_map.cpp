@@ -3,16 +3,23 @@
 
 
 Game_map::Game_map(int width, int height) : height(height), width(width) {
-    std::srand(std::time(0));
     map.resize(height, std::vector<Cell>(width));
-    for (auto& treasure_pos : treasure_positions) {
-        int treasure_x = treasure_pos.first;
-        int treasure_y = treasure_pos.second;
-        map[treasure_x][treasure_y].set_treasure(true);
-    }
+
+    start_generation(width, height);
+}
+
+void Game_map::start_generation(int width, int height){
+    std::srand(std::time(0));
+
+    portal_list.clear();
+
+    int treasure_x = std::rand() % height;
+    int treasure_y = std::rand() % width;
+    
+    map[treasure_x][treasure_y].set_treasure(true);
+
     for (auto& row : map) {
         for (Cell& cell : row) {
-            
             cell.update_Powers(height, width);
         }
     }
@@ -21,14 +28,18 @@ Game_map::Game_map(int width, int height) : height(height), width(width) {
         for (int j = 0; j < width; ++j) {
             Cell& cell = map[i][j];
 
-            // Si la celda tiene un portal, asegúrate de que haya un par en una celda vacía
+            // if there is a portal, we have to make the other 
             if (cell.getPortal()) {
+                int portal1_x = i;
+                int portal1_y = j;
+    
                 int other_X, other_Y;
                 do {
                     other_X = std::rand() % height;
                     other_Y = std::rand() % width;
                 } while (!map[other_X][other_Y].isEmpty());
                 map[other_X][other_Y].setPortal(true);
+                portal_list.push_back({{portal1_x, portal1_y}, {other_X, other_Y}});
             }
             
         }
@@ -37,34 +48,34 @@ Game_map::Game_map(int width, int height) : height(height), width(width) {
     init_map(0, 0);
     fill_east_side();
 }
-
-Game_map::~Game_map() {
+void Game_map::clear_map() {
     for (auto& tMap : map) {
         tMap.clear();
     }
     map.clear();
 }
+
+void Game_map::reset_map(){
+    for (auto& row : map) {
+        for (Cell& cell : row) {
+            
+            cell.clean_cell();
+            cell.setBottomWall(true);
+            cell.setTopWall(true);
+            cell.setRightWall(true);
+            cell.setLeftWall(true);
+            cell.setVisited(false);
+        }
+    }
+}
+
+Game_map::~Game_map() {
+    clear_map();
+}
 Cell& Game_map::get_map_index(int x, int y) {
     return map[x][y];
 }
-void Game_map::set_treasure_at(Player& player1, Player& player2) {
-    int player1_x = player1.get_x();
-    int player1_y = player1.get_y();
-    int player2_x = player2.get_x();
-    int player2_y = player2.get_y();
 
-    std::cout << "Player 1 position: (" << player1_x << ", " << player1_y << ")" << std::endl;
-    std::cout << "Player 2 position: (" << player2_x << ", " << player2_y << ")" << std::endl;
-
-    int manhattan_distance = abs(player1_x - player2_x) + abs(player1_y - player2_y);
-    std::cout << "Manhattan distance: " << manhattan_distance << std::endl;
-
-    int treasure_x = (player1_x + player2_x) / 2;
-    int treasure_y = (player1_y + player2_y) / 2;
-    std::cout << "nueva coordenada: (" << treasure_x << ", " << treasure_y << ")" << std::endl;
-    
-    treasure_positions.push_back(std::make_pair(treasure_x, treasure_y));
-}
 void Game_map::init_map(int x, int y) {
     int newX, newY;
 

@@ -11,6 +11,7 @@
 #define SECOND 60
 
 #define TITLE_WAIT 1
+#define WIN_WAIT 120
 
 #include "controls.h"
 #include "csv_loader.h"
@@ -30,6 +31,7 @@ public:
     void update_skins(int& player_skin_index);
     void update_screen(int& game_state);
     void update_map();
+    bool check_win(bool won);
 
     int get_player1_skin_index ();
     int get_player2_skin_index ();

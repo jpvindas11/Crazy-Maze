@@ -1,6 +1,6 @@
 #include "player_draw.h"
 
-void Player_draw::init(std::vector<SDL_Texture*> skins, int skin_ind, int player, int tile, int x_off, int y_off){
+void Player_draw::init(std::vector<SDL_Texture*> skins, int skin_ind, int player, int tile, int x_off, int y_off, SDL_Renderer* ren){
 
     skin_index = skin_ind;
     set_skin(skins,skin_ind);
@@ -24,10 +24,14 @@ void Player_draw::init(std::vector<SDL_Texture*> skins, int skin_ind, int player
 
     x_offset = x_off; y_offset = y_off;
     x = 0; y = 0, z = 0;
-    z = 0;
+
+    player_control = load_texture("assets/gui/player_control.png",ren);
 
     set_rect(player_rect, 0, 0, width, height);
     set_rect(player_spr, 0, 0, frame_width, frame_height);
+
+    set_rect(control_rect, 0, 0, width, (P_CONTROL_HEIGHT)*(tile_size/16));
+    set_rect(control_spr, 0, 0, P_CONTROL_WIDTH, (P_CONTROL_HEIGHT));
 
     image_frame = 0;
     image_speed = 8;
@@ -37,6 +41,7 @@ void Player_draw::init(std::vector<SDL_Texture*> skins, int skin_ind, int player
     facing_direction = 's';
     is_jumping = false;
     teleport = true;
+    won = false;
 
 }
 
@@ -98,8 +103,6 @@ void Player_draw::update(Player& player, bool control_enemy, int turn_p){
         }
     }
 
-    action_manager();
-
     //ANIMATION SPEEDS
     if (x == player.get_x()*tile_size && y == player.get_y()*tile_size) {
         if (image_frame == 0){
@@ -124,12 +127,35 @@ void Player_draw::update(Player& player, bool control_enemy, int turn_p){
     player_spr.x = image_frame*P_FRAME_WIDTH;
     player_spr.y = action_index*P_FRAME_HEIGHT;
 
+    won = player.get_treasure();
+
+    set_control_signs();
+
     vertical_movement();
 
+    action_manager();
+
+}
+
+void Player_draw::set_control_signs(){
+
+    if (player_index != turn){
+        control_spr.x = 2*P_CONTROL_WIDTH;
+    } else {
+        if (is_controlled){
+            if (player_index == 1) {control_spr.x = 1*P_CONTROL_WIDTH;}
+            else {control_spr.x = 0*P_CONTROL_WIDTH;}
+        }
+        else{control_spr.x = (player_index-1)*P_CONTROL_WIDTH;}
+    }
+
+    control_rect.x = player_rect.x;
+    control_rect.y = player_rect.y - P_CONTROL_ELEVATION *(tile_size/16);
 }
 
 void Player_draw::render(SDL_Renderer* renderer){
     SDL_RenderCopy(renderer, player_tex, &player_spr, &player_rect);
+    SDL_RenderCopy(renderer, player_control, &control_spr, &control_rect);
 }
 
 void Player_draw::jump(){
@@ -184,6 +210,11 @@ void Player_draw::action_manager(){
     if (is_controlled){
         if (player_index != turn){
             action_index = CONTROL;
-        } else action_index = CONTROLLED;
+        } else {
+            action_index = CONTROLLED;
+        }
+    }
+    if (won){
+        action_index = GOT_ORB;
     }
 }

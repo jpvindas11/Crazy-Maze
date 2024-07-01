@@ -2,6 +2,7 @@
 #include "iostream"
 void Controls::input_game(int turn, bool control_enemy){
 
+    enter = false; space = false;
     player_input = 'n';
 
     if (SDL_PollEvent( &control_event )){
@@ -68,8 +69,6 @@ void Controls::input_menu(){
             if (control_event.key.keysym.sym == SDLK_LEFT){
                 menu_input = 'l';
             }
-
-            std::cout << "(" << menu_input << ")";
         }
     }
 }

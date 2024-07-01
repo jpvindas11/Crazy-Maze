@@ -7,10 +7,10 @@
 #define IN_GAME 2
 #define END 3
 
-#define TITLE_WIDTH 384
-#define TITLE_HEIGHT 192
+#define TITLE_WIDTH 392
+#define TITLE_HEIGHT 196
 
-#define START_MENU_WIDTH 192
+#define START_MENU_WIDTH 256
 #define START_MENU_HEIGHT 64
 
 #define PLAYER_OVER_WIDTH 256
@@ -26,6 +26,7 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 #include "iostream"
+#include "../sound_manager.h"
 
 class Menu_draw{
 
@@ -38,8 +39,7 @@ public:
 
     void draw_intro(SDL_Renderer* ren){};
     void draw(SDL_Renderer* ren);
-    void update(int game_state, int p1_skin, int p2_skin, int map_index);
-    void draw_gui(SDL_Renderer* ren){};
+    void update(int game_state, int p1_skin, int p2_skin, int map_index, int p1_won, int p2_won);
 
 private:
 
@@ -61,7 +61,6 @@ private:
     Menu_element player2_overlay;
 
     Menu_element won_sign;
-    Menu_element trophy;
     Menu_element start_end;
 
 };

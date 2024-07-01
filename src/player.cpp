@@ -2,10 +2,16 @@
 #include <iostream>
 
 Player::Player(int x_length, int y_length) : jump_wall_power(0), has_moved(false) {
+   reset_position(x_length, y_length);
+}
+void Player::reset_position(int x_length, int y_length){
     x = int(std::rand()%x_length);
     y = int(std::rand()%y_length);
+    has_treasure = false;
+    has_teleported = true;
+    jump_wall_power = 0;
+    has_moved = false;
 }
-
 void Player::handle_movement(char direction, Game_map& game_map) {
 
     if (can_move(game_map, direction)) {
@@ -17,10 +23,8 @@ void Player::handle_movement(char direction, Game_map& game_map) {
         }
 
         Cell& cell = game_map.get_map_index(y, x);
-       
-
         collect_cell(game_map);
-        
+
         has_moved = true;
     } else {
         has_moved = false;
@@ -56,9 +60,6 @@ bool Player::can_move(Game_map& game_map, char direction) {
 
 void Player::collect_cell(Game_map& game_map) {
     Cell& cell = game_map.get_map_index(y, x);
-    if(cell.get_treasure()){
-        has_treasure=true;
-    }
     collect_powers(cell);
     if (cell.getPortal()) {
         cell.clean_cell();
@@ -79,36 +80,42 @@ bool Player::can_jump_wall(Game_map& game_map, char direction) {
 }
 
 void Player::teleport(Game_map& game_map) {
-    for (int i = 0; i < game_map.get_height(); ++i) {
-        for (int j = 0; j < game_map.get_width(); ++j) {
-            if (game_map.get_map_index(i, j).getPortal() && (i != y || j != x)) {
-                y = i;
-                x = j;
-                std::cout << "Teletransportado a: (" << i << ", " << j << ")" << std::endl;
-                game_map.get_map_index(i, j).clean_cell();
-                has_teleported = true;
-                return;
-            }
+    for (const auto& portal_pair : game_map.portal_list) {
+        if (portal_pair.first == std::make_pair(y, x)) {
+            y = portal_pair.second.first;
+            x = portal_pair.second.second;
+            game_map.get_map_index(y, x).clean_cell();
+            has_teleported = true;
+            return;
+        } else if (portal_pair.second == std::make_pair(y, x)) {
+            y = portal_pair.first.first;
+            x = portal_pair.first.second;
+            game_map.get_map_index(y, x).clean_cell();
+            has_teleported = true;
+            return;
         }
     }
+    // if there arent a portal pair
 }
-
 void Player::collect_powers(const Cell& cell) {
+    if(cell.get_treasure()){
+        has_treasure=true;
+    }
     if (cell.getJumpWall()) {
         jump_wall_power++;
-        std::cout << "Poder de salto acumulado: " << jump_wall_power << std::endl;
+        jump_wall_grab = true;
     }
     if (cell.get_double_play()) {
         doublePlayPower = true;
-        std::cout << "Poder de doble turno obtenido." << std::endl;
     }
     if (cell.getControlEnemy()) {
         controlEnemyPower = true;
-        std::cout << "Poder de controlar enemigo obtenido." << std::endl;
     }
 }
+
 
 void Player::update(){
     has_jumped = false;
     has_teleported = false;
+    jump_wall_grab = false;
 }

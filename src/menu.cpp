@@ -28,6 +28,16 @@ void Menu::game_end_screen(Controls& controller){
     }
 }
 
+bool Menu::check_win(bool won){
+    if (timer == 0){
+        if (won == true){   
+            timer = WIN_WAIT;
+            screen = GAME_END;
+        }
+    }
+    return won;
+}
+
 void Menu::move_selection(Controls& controller){
 
     if (controller.get_menu_input() == 'a'){

@@ -6,6 +6,8 @@ int main(int argc, char* argv[]){
 
     game.run_game();
 
+    game.clean_game();
+
     return 0;
 
 }

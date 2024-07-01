@@ -1,7 +1,7 @@
 #ifndef CELL_H
 #define CELL_H
 
-#define PORTAL_SPAWN_RATE 0.08
+#define PORTAL_SPAWN_RATE 0.05
 #define DOUBLE_SPAWN_RATE 0.1
 #define CONTROL_SPAWN_RATE 0.1
 #define JUMP_SPAWN_RATE 0.1
@@ -13,7 +13,7 @@ class Cell {
 public:
     
     Cell() 
-        : top_wall(true), bottom_wall(true), right_wall(true), left_wall(true), visited(false),has_Portal(false),has_double_Play(false),has_control_Enemy(false),has_jump_wall(false) {}
+        : top_wall(true), bottom_wall(true), right_wall(true), left_wall(true), visited(false),has_Portal(false),has_double_Play(false),has_control_Enemy(false),has_jump_wall(false), has_treasure(false) {}
 
     bool hasTopWall() const { return top_wall; }
     bool hasBottomWall() const { return bottom_wall; }

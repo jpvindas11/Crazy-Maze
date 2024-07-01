@@ -1,6 +1,13 @@
 #ifndef TILES_H
 #define TILES_H
 
+#define BOTTOM_W 16
+#define TOP_W 32
+#define RIGHT_W 48
+#define LEFT_W 64
+
+#define ORB_ELEVATION 24
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "../texture_loader.h"
@@ -30,11 +37,15 @@ private:
     Item_draw double_move;
     Item_draw portal;
 
+    Item_draw orb;
+
 
 private:
     int x_offset, y_offset;
     int tile_size;
     int screen_width, screen_height;
+    int orb_x, orb_y;
+    bool orb_gotten;
 };
 
 

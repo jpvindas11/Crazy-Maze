@@ -17,14 +17,17 @@ void Tiles::init(std::vector<SDL_Texture*> grounds, int TILE_SIZE, int SCREEN_W,
     tile_spr.x = 0; tile_spr.y = 0;
     tile_spr.w = 16; tile_spr.h = 16;
 
+    orb_gotten = false;
+
 }
 
 void Tiles::load_power_ups(SDL_Renderer* ren){
 
-    jump_wall.init("assets/items/pw_jump.png", ren, tile_size);
-    double_move.init("assets/items/pw_double_move.png", ren, tile_size);
-    control_enemy.init("assets/items/pw_control_enemy.png", ren, tile_size);
-    portal.init("assets/items/portal.png", ren, tile_size);
+    jump_wall.init("assets/items/pw_jump.png", ren, tile_size,8,4);
+    double_move.init("assets/items/pw_double_move.png", ren, tile_size,8,4);
+    control_enemy.init("assets/items/pw_control_enemy.png", ren, tile_size,8,4);
+    portal.init("assets/items/portal.png", ren, tile_size,8,4);
+    orb.init("assets/items/orb.png",ren,tile_size,8,6);
 }
 
 void Tiles::set_tile_set(std::vector<SDL_Texture*> grounds, int index){
@@ -37,6 +40,8 @@ void Tiles::draw(SDL_Renderer* ren, Game_map& game_map){
     control_enemy.play_animation();
     jump_wall.play_animation();
     portal.play_animation();
+    orb.play_animation();
+    orb_gotten = true;
     
     
     for (int i = 0; i < game_map.get_height(); ++i){
@@ -50,21 +55,22 @@ void Tiles::draw(SDL_Renderer* ren, Game_map& game_map){
             SDL_RenderCopy(ren, tile_tex, &tile_spr, &tile_rect);
 
             if (game_map.get_map_index(i,j).hasBottomWall()){
-                tile_spr.x = 16;
+                tile_spr.x = BOTTOM_W;
                 SDL_RenderCopy(ren, tile_tex, &tile_spr, &tile_rect);
             }
             if (game_map.get_map_index(i,j).hasTopWall()){
-                tile_spr.x = 32;
+                tile_spr.x = TOP_W;
                 SDL_RenderCopy(ren, tile_tex, &tile_spr, &tile_rect);
             }
             if (game_map.get_map_index(i,j).hasRightWall()){
-                tile_spr.x = 48;
+                tile_spr.x = RIGHT_W;
                 SDL_RenderCopy(ren, tile_tex, &tile_spr, &tile_rect);
             }
             if (game_map.get_map_index(i,j).hasLeftWall()){
-                tile_spr.x = 64;
+                tile_spr.x = LEFT_W;
                 SDL_RenderCopy(ren, tile_tex, &tile_spr, &tile_rect);
             }
+
             if (game_map.get_map_index(i,j).get_double_play() == true){
                 double_move.update(tile_rect.x,tile_rect.y);
                 double_move.render(ren);
@@ -82,8 +88,16 @@ void Tiles::draw(SDL_Renderer* ren, Game_map& game_map){
                 portal.update(tile_rect.x,tile_rect.y);
                 portal.render(ren);
             }
+            if (game_map.get_map_index(i,j).get_treasure() == true){
+                orb_x = tile_rect.x; orb_y = tile_rect.y;
+                orb_gotten = false;
+            }
 
         }
     }
+
+    if(orb_gotten == false) {orb.update(orb_x,orb_y);}
+    else {orb.update(orb_x,orb_y-(ORB_ELEVATION*(tile_size/16)));}
+    orb.render(ren);
    
 }

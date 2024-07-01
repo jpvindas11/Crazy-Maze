@@ -54,12 +54,10 @@ bool Cell::jump_Wall()
 
 }
 
-
 void Cell::update_Powers(int height, int width) {
     if (!isEmpty()) {
         return; 
     }
-    
     
     int randomPower = std::rand() % 4;
     
@@ -78,7 +76,6 @@ void Cell::update_Powers(int height, int width) {
 }
 
 void Cell::clean_cell() {
-    //std::cout << "Cleaning cell at memory address: " << this << std::endl;
     setPortal(false);
     set_control_enemy(false);
     set_double_play(false);

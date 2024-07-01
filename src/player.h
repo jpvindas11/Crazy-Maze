@@ -1,15 +1,17 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+
 #include "game_map.h" 
 #include "cell.h"    
 
 class Game_map;
 class Cell;  
+
 class Player {
 public:
 
     Player(int x_length, int y_length);
-
+    void reset_position(int x_length, int y_length);
     void handle_movement(char direction,Game_map& game_map);
     bool get_if_moved () { return has_moved; }
 
@@ -38,23 +40,30 @@ public:
     void useControlEnemy() { 
         controlEnemyPower = false; 
     }
-    bool get_jumped () {return has_jumped;}
-    bool get_teleported() {return has_teleported;}
-
+    bool get_jump_wall_grab() const {
+        return jump_wall_grab;
+    }
     bool get_treasure()const{
         return has_treasure;
     }
+    void remove_treasure() { 
+        has_treasure = false; 
+    }
+    bool get_jumped () {return has_jumped;}
+    bool get_teleported() {return has_teleported;}
+
 private:
     
     int x;
     int y;
-    bool has_treasure;
     bool doublePlayPower;
     bool has_moved;
+    bool has_treasure;
     int jump_wall_power;
     bool controlEnemyPower;
     bool has_teleported;
     bool has_jumped;
+    bool jump_wall_grab;
 
 
 private:
